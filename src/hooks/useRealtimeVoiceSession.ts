@@ -19,8 +19,8 @@ export type RealtimeVoiceEvent = {
 type VoiceServerMessage =
   | { type: "ready" | "started" | "processing" | "done" }
   | { type: "audio_chunk_received"; bytes?: number }
-  | { type: "transcript"; text?: string }
-  | { type: "tutor"; text?: string }
+  | { type: "transcript"; text?: string; transcript?: string }
+  | { type: "tutor"; text?: string; reply?: string; nextPrompt?: string; explanation?: string }
   | { type: "audio"; mime?: string; base64?: string }
   | { type: "error"; error?: string; message?: string };
 
@@ -40,10 +40,12 @@ function getVoiceServerUrl() {
 
 function toWebSocketUrl(baseUrl: string) {
   if (!baseUrl) return "";
-  if (baseUrl.startsWith("ws://") || baseUrl.startsWith("wss://")) return `${baseUrl}/voice`;
-  if (baseUrl.startsWith("https://")) return `wss://${baseUrl.replace("https://", "")}/voice`;
-  if (baseUrl.startsWith("http://")) return `ws://${baseUrl.replace("http://", "")}/voice`;
-  return `wss://${baseUrl}/voice`;
+  const normalized = baseUrl.replace(/\/$/, "");
+  if (normalized.endsWith("/voice")) return normalized;
+  if (normalized.startsWith("ws://") || normalized.startsWith("wss://")) return `${normalized}/voice`;
+  if (normalized.startsWith("https://")) return `wss://${normalized.replace("https://", "")}/voice`;
+  if (normalized.startsWith("http://")) return `ws://${normalized.replace("http://", "")}/voice`;
+  return `wss://${normalized}/voice`;
 }
 
 function base64ToBlob(base64: string, mime = "audio/mpeg") {
@@ -65,6 +67,7 @@ export function useRealtimeVoiceSession() {
   const recorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const audioUrlRef = useRef<string | null>(null);
+  const connectingRef = useRef<Promise<WebSocket> | null>(null);
 
   const configured = Boolean(getVoiceServerUrl());
   const wsUrl = useMemo(() => toWebSocketUrl(getVoiceServerUrl()), []);
