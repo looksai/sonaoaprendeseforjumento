@@ -1,7 +1,7 @@
 // Primary "Continue with Google" button — uses Lovable Cloud managed OAuth.
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { lovable } from "@/integrations/lovable";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 interface Props {
@@ -16,18 +16,19 @@ export function GoogleSignInButton({ className = "", label = "Continuar com Goog
     if (busy) return;
     setBusy(true);
     try {
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: typeof window !== "undefined" ? window.location.origin : undefined,
+      const redirectTo =
+        typeof window !== "undefined" ? `${window.location.origin}/welcome` : undefined;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo,
+        },
       });
-      if (result.error) {
+      if (error) {
         toast.error("Não consegui conectar agora. Tente novamente.");
-        setBusy(false);
-        return;
       }
-      if (!result.redirected) {
-        setBusy(false);
-      }
-      // On success: browser redirects, or session is set and AuthProvider routes to /
+      setBusy(false);
+      // On success: browser redirects, then AuthProvider routes to the next step.
     } catch {
       toast.error("Não consegui conectar agora. Tente novamente.");
       setBusy(false);
