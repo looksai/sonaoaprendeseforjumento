@@ -4,19 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
+/* =================================================================
+   CSLE — Visual System v2
+   ----------------------------------------------------------------
+   A real, full theme + layout architecture.
+   Themes change EVERYTHING (background, text, surfaces, buttons,
+   borders, icons, shadows, gradients).
+   Layouts change spacing, scale, density, and card style.
+   Cards stay readable in every theme.
+   ================================================================= */
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -26,20 +22,27 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -59,86 +62,1210 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --animate-fade-in: fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-fade-in-up: fade-in-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-pulse-glow: pulse-glow 2.4s ease-in-out infinite;
 }
 
+/* =================================================================
+   DEFAULT THEME — "ocean" (the base values).
+   Every other theme overrides a subset of these.
+   ================================================================= */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 1rem;
+
+  /* Sky base */
+  --background: oklch(0.97 0.015 245);
+  --surface: oklch(0.99 0.008 240);
+  --surface-strong: oklch(1 0 0);
+  --foreground: oklch(0.13 0.04 260);
+
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.13 0.04 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --popover-foreground: oklch(0.13 0.04 260);
+
+  /* Royal blue */
+  --primary: oklch(0.55 0.20 263);
+  --primary-foreground: oklch(0.99 0.005 240);
+  --primary-glow: oklch(0.65 0.21 263);
+
+  --secondary: oklch(0.93 0.04 245);
+  --secondary-foreground: oklch(0.22 0.06 260);
+
+  --muted: oklch(0.94 0.025 245);
+  --muted-foreground: oklch(0.30 0.04 258);
+
+  --accent: oklch(0.32 0.13 268);
+  --accent-foreground: oklch(0.99 0.005 240);
+
+  --success: oklch(0.62 0.15 158);
+  --success-foreground: oklch(0.99 0.005 240);
+  --warning: oklch(0.72 0.16 75);
+  --warning-foreground: oklch(0.18 0.04 260);
+  --destructive: oklch(0.58 0.20 25);
+  --destructive-foreground: oklch(0.99 0.005 240);
+
+  --border: oklch(0.86 0.04 245);
+  --input: oklch(0.97 0.015 245);
+  --ring: oklch(0.55 0.20 263);
+
+  --chart-1: oklch(0.55 0.20 263);
+  --chart-2: oklch(0.32 0.13 268);
+  --chart-3: oklch(0.62 0.15 158);
+  --chart-4: oklch(0.72 0.16 75);
+  --chart-5: oklch(0.58 0.20 25);
+
+  --sidebar: oklch(0.97 0.018 245);
+  --sidebar-foreground: oklch(0.18 0.04 260);
+  --sidebar-primary: oklch(0.55 0.20 263);
+  --sidebar-primary-foreground: oklch(0.99 0.005 240);
+  --sidebar-accent: oklch(0.92 0.04 245);
+  --sidebar-accent-foreground: oklch(0.25 0.06 260);
+  --sidebar-border: oklch(0.85 0.04 245);
+  --sidebar-ring: oklch(0.55 0.20 263);
+
+  /* === Page-level gradient (body owns it) === */
+  --gradient-page: linear-gradient(180deg, #F1F5F9 0%, #CFE0F5 30%, #8FB6E6 60%, #3E6FB6 100%);
+  --gradient-hero: var(--gradient-page);
+  --gradient-primary: linear-gradient(135deg, #3A7BFF 0%, #1E4ED8 100%);
+  --gradient-cta: linear-gradient(135deg, #3A7BFF 0%, #1E4ED8 100%);
+  --gradient-card: linear-gradient(160deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78));
+  --gradient-success: linear-gradient(135deg, oklch(0.55 0.15 160), oklch(0.62 0.14 170));
+  --gradient-accent: linear-gradient(135deg, oklch(0.36 0.14 268), oklch(0.28 0.12 270));
+
+  /* Glass tuning per theme — fully solid surfaces */
+  --glass-bg: rgba(255,255,255,0.94);
+  --glass-bg-strong: rgba(255,255,255,0.98);
+  --glass-border: rgba(15, 23, 42, 0.10);
+  --glass-blur: 0px;
+
+  /* Shadows */
+  --shadow-glow: 0 14px 40px -10px rgba(30, 78, 216, 0.45);
+  --shadow-card: 0 8px 24px -12px rgba(15, 23, 42, 0.18), 0 2px 4px rgba(15, 23, 42, 0.06);
+  --shadow-soft: 0 2px 8px rgba(15, 23, 42, 0.08);
+  --shadow-elevated: 0 24px 60px -20px rgba(15, 23, 42, 0.30), 0 4px 12px rgba(15, 23, 42, 0.10);
+
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* === LAYOUT TOKENS — overridden per [data-layout] === */
+  --layout-base-font: 16px;
+  --layout-page-pad-x: 1.25rem;     /* horizontal page padding */
+  --layout-section-gap: 1.25rem;    /* vertical gap between sections */
+  --layout-card-pad: 1.25rem;       /* default card inner padding */
+  --layout-card-radius: 1.25rem;    /* card corner radius */
+  --layout-h1: 1.75rem;             /* main heading */
+  --layout-h2: 1.25rem;
+  --layout-body: 0.95rem;
+  --layout-eyebrow-spacing: 0.18em;
+  --layout-stack: 1rem;             /* default vertical rhythm */
+  --layout-grid-gap: 0.75rem;
+  --layout-container-max: 28rem;    /* mobile-first card column */
+
+  color-scheme: light;
 }
 
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
-}
+/* "dark" class kept for shadcn primitives that test it; we drive theming via data-theme. */
+.dark { color-scheme: light; }
 
+/* =================================================================
+   BASE LAYER
+   ================================================================= */
 @layer base {
-  * {
-    border-color: var(--color-border);
+  * { border-color: var(--color-border); }
+
+  html {
+    font-size: var(--layout-base-font);
+  }
+
+  html, body {
+    color: var(--color-foreground);
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: var(--color-background);
+    background: var(--gradient-page);
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* === Atmospheric image layer (theme-driven) ===
+     Each theme injects --theme-image-main + tunes --theme-image-opacity.
+     Focused screens dim this layer further (see [data-screen="focus"]). */
+  body::after {
+    display: none;
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+    background-image: var(--theme-image-main, none);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: var(--theme-image-opacity, 0);
+    filter: blur(var(--theme-image-blur, 0px)) saturate(var(--theme-image-saturate, 1));
+    transition: opacity 0.35s ease, filter 0.35s ease;
+  }
+
+  /* === Color overlay on top of the image, below content ===
+     Keeps text readable no matter how busy the photo is. */
+  body::before {
+    display: none;
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background: var(--theme-overlay, transparent);
+    transition: background 0.35s ease;
+  }
+
+  #root { position: relative; z-index: 1; isolation: isolate; }
+
+  /* Focused screens (lessons, conversation, driving, etc.) — calm down.
+     Uses :has() to detect a [data-screen="focus"] descendant in <body>. */
+  body:has([data-screen="focus"])::after {
+    opacity: calc(var(--theme-image-opacity, 0) * 0.28);
+    filter: blur(calc(var(--theme-image-blur, 0px) + 6px)) saturate(0.9);
+  }
+  body:has([data-screen="focus"])::before {
+    background: var(--theme-overlay-focus, var(--theme-overlay, transparent));
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
     color: var(--color-foreground);
+    font-weight: 700;
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background-color: color-mix(in oklab, var(--color-primary) 30%, transparent);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in oklab, var(--color-primary) 55%, transparent);
+  }
+}
+
+/* =================================================================
+   UTILITIES
+   ================================================================= */
+@layer utilities {
+  .bg-gradient-primary { background-image: var(--gradient-primary); }
+  .bg-gradient-hero    { background-image: var(--gradient-hero); }
+  .bg-gradient-sky     { background-image: var(--gradient-page); }
+  .bg-gradient-page    { background-image: var(--gradient-page); }
+  .bg-gradient-card    { background-image: var(--gradient-card); }
+  .bg-gradient-success { background-image: var(--gradient-success); }
+  .bg-gradient-accent  { background-image: var(--gradient-accent); }
+  .bg-gradient-cta     { background-image: var(--gradient-cta); }
+  .bg-surface          { background-color: var(--color-surface); }
+  .bg-surface-strong   { background-color: var(--surface-strong); }
+
+  .shadow-glow         { box-shadow: var(--shadow-glow); }
+  .shadow-card         { box-shadow: var(--shadow-card); }
+  .shadow-soft         { box-shadow: var(--shadow-soft); }
+  .shadow-elevated     { box-shadow: var(--shadow-elevated); }
+
+  .transition-smooth   { transition: var(--transition-smooth); }
+  .transition-bounce   { transition: var(--transition-bounce); }
+
+  /* Glass surfaces — solid, premium, never washed out */
+  .surface-card {
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--layout-card-radius);
+    color: var(--color-foreground);
+  }
+  .surface-elevated {
+    background: linear-gradient(160deg, var(--glass-bg-strong), var(--glass-bg));
+    backdrop-filter: blur(calc(var(--glass-blur) + 2px)) saturate(125%);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 2px)) saturate(125%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-elevated);
+    border-radius: var(--layout-card-radius);
+    color: var(--color-foreground);
+  }
+  .glass-strong {
+    background-color: var(--glass-bg-strong);
+    backdrop-filter: blur(calc(var(--glass-blur) + 4px)) saturate(130%);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 4px)) saturate(130%);
+    border: 1px solid var(--glass-border);
+    color: var(--color-foreground);
+  }
+
+  /* Layout-driven utilities — consumed by AppShell and pages */
+  .layout-page-x   { padding-left: var(--layout-page-pad-x); padding-right: var(--layout-page-pad-x); }
+  .layout-stack    > * + * { margin-top: var(--layout-stack); }
+  .layout-section  { padding-top: var(--layout-section-gap); }
+  .layout-h1       { font-size: var(--layout-h1); line-height: 1.15; }
+  .layout-h2       { font-size: var(--layout-h2); line-height: 1.2; }
+  .layout-body     { font-size: var(--layout-body); line-height: 1.5; }
+  .layout-grid-gap { gap: var(--layout-grid-gap); }
+
+  /* Premium CTA helper */
+  .btn-cta {
+    background-image: var(--gradient-cta);
+    color: var(--color-primary-foreground);
+    box-shadow: var(--shadow-glow);
+    border-radius: 9999px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+  }
+}
+
+/* =================================================================
+   ANIMATIONS
+   ================================================================= */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-primary) 50%, transparent); }
+  50%      { box-shadow: 0 0 0 14px color-mix(in oklab, var(--color-primary) 0%, transparent); }
+}
+
+/* =================================================================
+   IMAGE-BACKED THEMES
+   Each theme defines:
+     --theme-image-main     — set from JS (asset URL)
+     --theme-image-opacity  — visibility of the photo layer
+     --theme-image-blur     — softness of the photo layer
+     --theme-image-saturate — saturation tweak
+     --theme-overlay        — color overlay above the image (browsing screens)
+     --theme-overlay-focus  — stronger overlay on focused screens
+   The :root block already declares the OCEAN palette (default theme).
+   ================================================================= */
+
+/* ---- THEME 01: OCEAN (default; image atmosphere) ---- */
+:root {
+  --theme-image-opacity: 0.85;
+  --theme-image-blur: 0px;
+  --theme-image-saturate: 1;
+  --theme-overlay: linear-gradient(
+    180deg,
+    rgba(8, 24, 48, 0.32) 0%,
+    rgba(12, 36, 72, 0.42) 60%,
+    rgba(8, 28, 60, 0.55) 100%
+  );
+  --theme-overlay-focus: linear-gradient(
+    180deg,
+    rgba(8, 24, 48, 0.55) 0%,
+    rgba(12, 36, 72, 0.62) 60%,
+    rgba(8, 28, 60, 0.72) 100%
+  );
+}
+
+/* =================================================================
+   UNIFIED DESIGN — All theme/layout variants removed.
+   The :root block above defines the single source of truth for the
+   visual identity. Wallpaper choice only swaps --theme-image-main,
+   leaving all colors, cards, buttons, typography unchanged.
+   ================================================================= */
+
+/* =================================================================
+   ACCESSIBILITY TOGGLES
+   ================================================================= */
+html[data-high-contrast] {
+  --border: color-mix(in oklab, var(--foreground) 35%, var(--border));
+  --muted-foreground: color-mix(in oklab, var(--foreground) 75%, transparent);
+  --glass-border: color-mix(in oklab, var(--foreground) 25%, var(--glass-border));
+}
+
+html[data-reduce-motion] *,
+html[data-reduce-motion] *::before,
+html[data-reduce-motion] *::after {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+}
+
+html[data-classic-feel] .personal-avatar {
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+
+/* =================================================================
+   CSLE HOTFIX — stable mobile/tablet visual architecture
+   -----------------------------------------------------------------
+   This block intentionally comes last. It fixes the main visual issues:
+   - one background layer only;
+   - no z-index fighting with dialogs/nav/chat;
+   - safer mobile viewport height using 100dvh;
+   - readable cards over image themes;
+   - responsive width for tablet/desktop while staying app-like on phones.
+   ================================================================= */
+@layer base {
+  html,
+  body {
+    min-height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    background: var(--gradient-page);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+  }
+
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  input,
+  textarea,
+  select {
+    color: var(--color-foreground);
+    background-color: var(--color-card);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: color-mix(in oklab, var(--color-muted-foreground) 78%, transparent);
+  }
+}
+
+@layer utilities {
+  .atmosphere-root {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .atmosphere-image,
+  .atmosphere-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease, filter 300ms ease, background 300ms ease;
+  }
+
+  .atmosphere-image {
+    background-image: var(--theme-image-main, none);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transform: scale(1.03);
+  }
+
+  .atmosphere-overlay {
+    opacity: 1;
+  }
+
+  .app-shell {
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+    display: flex;
+    min-height: 100dvh;
+    width: min(100%, var(--layout-container-max, 28rem));
+    margin-inline: auto;
+    flex-direction: column;
+  }
+
+  .app-main {
+    min-height: 0;
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .app-main--with-nav {
+    padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+  }
+
+  .app-main--no-nav {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .mobile-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    border-top: 1px solid var(--glass-border);
+    background: color-mix(in oklab, var(--glass-bg-strong) 96%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    backdrop-filter: blur(14px) saturate(160%);
+    box-shadow: 0 -16px 38px -22px rgba(0, 0, 0, 0.42);
+  }
+
+  .mobile-nav__inner {
+    display: flex;
+    width: min(100%, var(--layout-container-max, 28rem));
+    margin-inline: auto;
+    align-items: center;
+    justify-content: space-around;
+    gap: 0.25rem;
+    padding: 0.5rem 0.5rem max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  .mobile-nav__inner--compact {
+    padding-top: 0.35rem;
+  }
+
+  .mobile-nav__item {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    border-radius: 1rem;
+    padding: 0.45rem 0.3rem;
+    color: var(--color-muted-foreground);
+    transition: var(--transition-smooth);
+  }
+
+  .mobile-nav__item:hover,
+  .mobile-nav__item--active {
+    color: var(--color-primary);
+    background: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  }
+
+  .mobile-nav__item--active::before {
+    content: "";
+    position: absolute;
+    top: -0.45rem;
+    left: 50%;
+    height: 0.22rem;
+    width: 1.45rem;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: var(--color-primary);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .mobile-nav__icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .mobile-nav__label {
+    font-size: 0.64rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .surface-card,
+  .surface-elevated,
+  .glass-strong {
+    background-clip: padding-box;
+  }
+
+  .readable-panel {
+    background: color-mix(in oklab, var(--glass-bg-strong) 94%, transparent);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-card);
+    color: var(--color-foreground);
+  }
+}
+
+@media (min-width: 640px) {
+  :root { --layout-container-max: 34rem; }
+}
+
+@media (min-width: 900px) {
+  :root { --layout-container-max: 42rem; }
+}
+
+@supports not (height: 100dvh) {
+  .app-shell,
+  body {
+    min-height: 100vh;
+  }
+}
+
+/* =================================================================
+   V6 UI REBUILD — premium image-first shell + cleaner navigation
+   ================================================================= */
+@layer base {
+  :root {
+    --theme-image-opacity: 0.56;
+    --theme-image-blur: 0px;
+    --theme-image-saturate: 1.08;
+    --theme-overlay: linear-gradient(
+      180deg,
+      rgba(243, 248, 255, 0.70) 0%,
+      rgba(225, 238, 255, 0.72) 34%,
+      rgba(108, 151, 212, 0.78) 72%,
+      rgba(38, 83, 150, 0.88) 100%
+    );
+    --theme-overlay-focus: linear-gradient(
+      180deg,
+      rgba(244, 248, 255, 0.88) 0%,
+      rgba(225, 238, 255, 0.88) 55%,
+      rgba(65, 112, 181, 0.90) 100%
+    );
+    --layout-container-max: 34rem;
+  }
+}
+
+@layer utilities {
+  .app-shell--wide {
+    width: min(100%, 72rem);
+  }
+
+  .v6-page-pad {
+    padding-left: clamp(1rem, 4vw, 2rem);
+    padding-right: clamp(1rem, 4vw, 2rem);
+  }
+
+  .v6-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2rem;
+    border: 1px solid rgba(255,255,255,0.48);
+    background: linear-gradient(150deg, rgba(255,255,255,0.88), rgba(255,255,255,0.62));
+    box-shadow: 0 24px 70px -30px rgba(15, 23, 42, 0.46), inset 0 1px 0 rgba(255,255,255,0.75);
+  }
+
+  .v6-hero::before {
+    content: "";
+    position: absolute;
+    inset: -40% -20% auto auto;
+    height: 17rem;
+    width: 17rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(58,123,255,.30), transparent 68%);
+    pointer-events: none;
+  }
+
+  .v6-primary-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    border-radius: 999px;
+    background: var(--gradient-cta);
+    color: var(--color-primary-foreground);
+    font-weight: 900;
+    box-shadow: var(--shadow-glow);
+    transition: var(--transition-bounce);
+  }
+  .v6-primary-action:active { transform: scale(.98); }
+
+  .v6-section-title {
+    font-size: .72rem;
+    font-weight: 900;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-foreground) 62%, var(--color-primary));
+  }
+
+  .v6-compact-card {
+    border-radius: 1.35rem;
+    background: rgba(255,255,255,.82);
+    border: 1px solid rgba(255,255,255,.54);
+    box-shadow: 0 18px 44px -28px rgba(15,23,42,.42);
+  }
+
+  .msn-window {
+    overflow: hidden;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255,255,255,.62);
+    background: rgba(255,255,255,.86);
+    box-shadow: 0 24px 70px -34px rgba(15, 23, 42, .52);
+  }
+  .msn-titlebar {
+    background: linear-gradient(135deg, #2d7cff 0%, #1153d8 100%);
+    color: white;
+  }
+  .msn-panel {
+    background: rgba(255,255,255,.72);
+    border: 1px solid rgba(30,78,216,.14);
+  }
+  .msn-row {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    border-radius: .85rem;
+    padding: .55rem .65rem;
+    transition: var(--transition-smooth);
+  }
+  .msn-row:hover { background: rgba(58,123,255,.10); }
+
+  .mobile-nav__inner {
+    justify-content: space-between;
+    max-width: 34rem;
+  }
+  .mobile-nav__item {
+    min-width: 3.15rem;
+    padding-inline: .45rem;
+  }
+}
+
+/* =================================================================
+   V7 UX rescue — persistent nav, stronger feature hierarchy, settings
+   ================================================================= */
+@layer utilities {
+  .v7-feature-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2rem;
+    border: 1px solid rgba(255,255,255,.62);
+    background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(255,255,255,.72));
+    box-shadow: 0 26px 70px -34px rgba(15,23,42,.55), inset 0 1px 0 rgba(255,255,255,.85);
+  }
+  .v7-feature-card::after {
+    content: "";
+    position: absolute;
+    right: -4rem;
+    top: -4rem;
+    width: 13rem;
+    height: 13rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(58,123,255,.24), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Conversar now keeps the nav visible, so the bottom composer must not hide behind it. */
+  [data-screen="focus"] .app-main--with-nav {
+    padding-bottom: calc(7.25rem + env(safe-area-inset-bottom));
+  }
+
+  @media (max-width: 420px) {
+    .mobile-nav__item { padding-inline: .2rem; }
+    .mobile-nav__label { font-size: .56rem; }
+    .mobile-nav__icon { height: 1.15rem; width: 1.15rem; }
+  }
+}
+
+/* =================================================================
+   V10 FINAL UI — Orkut-inspired social profile + stronger readability
+   ================================================================= */
+@layer utilities {
+  .surface-card,
+  .surface-elevated,
+  .v7-feature-card,
+  .v6-hero,
+  .msn-window {
+    background-color: rgba(255,255,255,.92);
+  }
+
+  .profile-product-shell {
+    width: min(100%, 72rem);
+    margin-inline: auto;
+    padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) 2rem;
+  }
+
+  .profile-product-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--color-foreground);
+  }
+
+  .profile-eyebrow {
+    font-size: .68rem;
+    font-weight: 950;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .profile-product-header h1 {
+    margin: .25rem 0 0;
+    font-size: clamp(2rem, 4vw, 3.35rem);
+    line-height: 1;
+    font-weight: 950;
+    letter-spacing: -.055em;
+  }
+
+  .profile-product-header p {
+    margin-top: .55rem;
+    max-width: 42rem;
+    color: color-mix(in oklab, var(--color-foreground) 72%, transparent);
+  }
+
+  .profile-settings-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    flex-shrink: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.85);
+    background: rgba(255,255,255,.88);
+    padding: .75rem 1rem;
+    font-size: .78rem;
+    font-weight: 900;
+    box-shadow: var(--shadow-soft);
+    color: var(--color-foreground);
+  }
+
+  .profile-social-nav {
+    position: sticky;
+    top: .75rem;
+    z-index: 35;
+    display: flex;
+    gap: .45rem;
+    overflow-x: auto;
+    margin: 1rem 0 1.15rem;
+    border: 1px solid rgba(255,255,255,.78);
+    border-radius: 1.35rem;
+    background: rgba(255,255,255,.90);
+    padding: .45rem;
+    box-shadow: 0 18px 48px -30px rgba(15,23,42,.42);
+    backdrop-filter: blur(8px) saturate(150%);
+  }
+
+  .profile-social-nav a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .38rem;
+    white-space: nowrap;
+    border-radius: 1rem;
+    padding: .7rem .85rem;
+    font-size: .74rem;
+    font-weight: 900;
+    color: color-mix(in oklab, var(--color-foreground) 72%, transparent);
+    transition: var(--transition-smooth);
+  }
+
+  .profile-social-nav a:hover {
+    background: var(--gradient-cta);
+    color: var(--color-primary-foreground);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .profile-orkut-grid {
+    display: grid;
+    grid-template-columns: 17rem minmax(0, 1fr) 20rem;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .profile-left-rail,
+  .profile-center-feed,
+  .profile-right-rail {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .profile-solid-card {
+    border: 1px solid rgba(255,255,255,.86);
+    border-radius: 1.55rem;
+    background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(246,250,255,.91));
+    color: var(--color-foreground);
+    box-shadow: 0 22px 60px -36px rgba(15,23,42,.54), inset 0 1px 0 rgba(255,255,255,.82);
+  }
+
+  .profile-identity-card { padding: 1.15rem; }
+
+  .profile-brand {
+    font-size: 2.35rem;
+    font-weight: 950;
+    line-height: 1;
+    letter-spacing: -.06em;
+    background: linear-gradient(90deg, #6d5cff, #ec4aa8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .profile-photo-frame {
+    display: grid;
+    justify-items: center;
+    gap: .45rem;
+  }
+
+  .profile-photo-caption {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    color: var(--color-primary);
+    font-size: .72rem;
+    font-weight: 900;
+  }
+
+  .profile-identity-card h2 {
+    margin: .9rem 0 .05rem;
+    font-size: 1.35rem;
+    font-weight: 950;
+    text-align: center;
+  }
+
+  .profile-handle {
+    margin: 0;
+    text-align: center;
+    color: color-mix(in oklab, var(--color-foreground) 58%, transparent);
+    font-size: .82rem;
+  }
+
+  .profile-quote {
+    margin: 1rem 0 0;
+    padding: .9rem;
+    border-block: 1px dashed color-mix(in oklab, var(--color-primary) 26%, transparent);
+    text-align: center;
+    color: color-mix(in oklab, var(--color-foreground) 68%, transparent);
+    line-height: 1.45;
+  }
+
+  .profile-status-pill,
+  .profile-online-dot-text {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    margin-top: .8rem;
+    color: #147c50;
+    font-size: .78rem;
+    font-weight: 900;
+  }
+
+  .profile-online-dot,
+  .profile-online-dot-text span {
+    width: .62rem;
+    height: .62rem;
+    border-radius: 999px;
+    background: #22c982;
+    box-shadow: 0 0 0 4px rgba(34,201,130,.13);
+  }
+
+  .profile-level-badge {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: .1rem .65rem;
+    align-items: center;
+    margin-top: 1rem;
+    border-radius: 1.15rem;
+    background: linear-gradient(135deg, rgba(237,242,255,.98), rgba(255,232,247,.90));
+    padding: .85rem 1rem;
+  }
+
+  .profile-level-badge span { color: var(--color-primary); font-size: 1.25rem; font-weight: 950; }
+  .profile-level-badge strong { color: color-mix(in oklab, var(--color-foreground) 62%, transparent); font-size: .8rem; }
+  .profile-level-badge svg { grid-row: 1/3; grid-column: 2; color: #a64cff; fill: #d990ff; }
+
+  .profile-side-menu { display: grid; gap: .38rem; margin-top: 1rem; }
+  .profile-side-menu a {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    border-radius: 1rem;
+    padding: .7rem .8rem;
+    color: color-mix(in oklab, var(--color-foreground) 76%, transparent);
+    font-size: .82rem;
+    font-weight: 850;
+  }
+  .profile-side-menu a:hover { background: rgba(58,123,255,.10); color: var(--color-primary); }
+
+  .profile-day-status {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: .75rem;
+    align-items: center;
+    padding: 1rem;
+  }
+  .profile-day-status svg { color: #f4aa26; fill: #ffd16e; }
+  .profile-day-status strong { display: block; font-size: .9rem; }
+  .profile-day-status span { display: block; color: color-mix(in oklab, var(--color-foreground) 58%, transparent); font-size: .78rem; }
+  .profile-day-status b { color: var(--color-primary); }
+  .profile-mini-progress,
+  .profile-progress {
+    height: .62rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(226,232,240,.92);
+  }
+  .profile-mini-progress { grid-column: 1/4; height: .52rem; }
+  .profile-mini-progress i,
+  .profile-progress i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #3a7bff, #7b42ff, #ec4aa8); }
+
+  .profile-hero-card {
+    position: relative;
+    min-height: 15.5rem;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 9.5rem;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid rgba(255,255,255,.72);
+    border-radius: 1.75rem;
+    background: radial-gradient(circle at 12% 0%, rgba(255,255,255,.23), transparent 42%), linear-gradient(135deg, #4d6ceb, #2a286b 56%, #9e49c7);
+    padding: 1.5rem;
+    color: #fff;
+    box-shadow: 0 28px 70px -34px rgba(17,24,39,.62);
+  }
+  .profile-hero-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.48) 1px, transparent 1px);
+    background-size: 1.7rem 1.7rem;
+    opacity: .16;
+  }
+  .profile-hero-copy,
+  .profile-pixel-avatar,
+  .profile-spark { position: relative; z-index: 1; }
+  .profile-hero-copy h2 { margin: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 950; letter-spacing: -.055em; }
+  .profile-hero-handle { margin: .2rem 0 .2rem; color: rgba(255,255,255,.78); font-weight: 800; }
+  .profile-hero-bio { max-width: 34rem; margin: .85rem 0 0; color: rgba(255,255,255,.84); line-height: 1.55; }
+  .profile-hero-meta { display: flex; flex-wrap: wrap; gap: .85rem 1.1rem; margin-top: 1.1rem; color: rgba(255,255,255,.82); font-size: .82rem; font-weight: 750; }
+  .profile-hero-meta span { display: inline-flex; align-items: center; gap: .35rem; }
+  .profile-pixel-avatar {
+    display: grid;
+    place-items: center;
+    width: 8.5rem;
+    aspect-ratio: 1;
+    border-radius: 2rem;
+    background: linear-gradient(135deg, #fff0fb, #7e5cff);
+    color: #fff;
+    font-size: 4.4rem;
+    font-weight: 950;
+    box-shadow: inset 0 0 0 .35rem rgba(255,255,255,.20), 0 18px 44px rgba(15,23,42,.25);
+  }
+  .profile-spark { position: absolute; color: rgba(255,135,210,.78); }
+  .profile-spark.s1 { top: 1.2rem; right: 16rem; }
+  .profile-spark.s2 { right: 1.5rem; bottom: 1.5rem; }
+  .profile-spark.s3 { left: 48%; bottom: 1.4rem; }
+
+  .profile-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .75rem;
+  }
+  .profile-stats-row div {
+    display: grid;
+    justify-items: center;
+    gap: .18rem;
+    border: 1px solid rgba(255,255,255,.82);
+    border-radius: 1.35rem;
+    background: rgba(255,255,255,.93);
+    padding: .95rem .6rem;
+    box-shadow: var(--shadow-soft);
+  }
+  .profile-stats-row svg { color: #f3a926; }
+  .profile-stats-row small { color: color-mix(in oklab, var(--color-foreground) 54%, transparent); font-size: .68rem; font-weight: 800; text-transform: uppercase; }
+  .profile-stats-row strong { font-size: 1.15rem; font-weight: 950; }
+
+  .profile-level-card,
+  .profile-skill-card,
+  .profile-about-card,
+  .profile-achievements-card,
+  .profile-friends-card,
+  .profile-motivation-card,
+  .profile-activity-card { padding: 1.2rem; }
+
+  .profile-section-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .85rem; }
+  .profile-section-head h3,
+  .profile-level-card h3,
+  .profile-about-card h3,
+  .profile-activity-card h3 { margin: 0; font-size: 1.1rem; font-weight: 950; letter-spacing: -.025em; }
+  .profile-section-head a,
+  .profile-section-head span { color: var(--color-primary); font-size: .75rem; font-weight: 950; }
+
+  .profile-level-grid { display: grid; grid-template-columns: 9rem 1fr; gap: 1.15rem; align-items: center; }
+  .profile-big-emblem { display: grid; place-items: center; width: 8.6rem; aspect-ratio: 1; border-radius: 2.2rem; background: linear-gradient(135deg, #ff74c7, #7343ff); color: #fff; box-shadow: inset 0 0 0 .32rem rgba(255,255,255,.28), 0 16px 38px rgba(124,58,237,.25); }
+  .profile-level-grid h4 { margin: 0; font-size: 1.55rem; font-weight: 950; }
+  .profile-level-grid b { display: block; margin: .15rem 0 .85rem; color: var(--color-primary); }
+  .profile-level-grid p { margin: .55rem 0 0; color: color-mix(in oklab, var(--color-foreground) 60%, transparent); font-size: .85rem; }
+  .profile-soft-note,
+  .profile-scrap-box { margin-top: .95rem; border: 1px solid rgba(236,74,168,.18); border-radius: 1rem; background: rgba(255,240,248,.82); padding: .8rem; color: #914b76; line-height: 1.45; font-size: .86rem; }
+
+  .profile-skill-row { margin-top: .75rem; }
+  .profile-skill-row div:first-child { display: flex; align-items: center; justify-content: space-between; margin-bottom: .28rem; font-size: .8rem; font-weight: 900; }
+  .profile-skill-row b { color: var(--color-primary); }
+
+  .profile-about-card ul { list-style: none; margin: .75rem 0 0; padding: 0; }
+  .profile-about-card li { display: flex; gap: .65rem; align-items: center; padding: .75rem 0; border-bottom: 1px dashed rgba(99,102,241,.18); color: color-mix(in oklab, var(--color-foreground) 76%, transparent); }
+  .profile-about-card li svg { color: var(--color-primary); }
+
+  .profile-achievements-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .65rem; }
+  .profile-achievement { min-height: 8.4rem; display: grid; align-content: start; justify-items: center; gap: .35rem; border: 1px solid rgba(99,102,241,.10); border-radius: 1.05rem; background: rgba(255,255,255,.68); padding: .75rem .45rem; text-align: center; opacity: .66; }
+  .profile-achievement.is-awarded { opacity: 1; background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(239,245,255,.88)); box-shadow: var(--shadow-soft); }
+  .profile-achievement span { font-size: 2rem; }
+  .profile-achievement strong { font-size: .72rem; font-weight: 950; line-height: 1.1; }
+  .profile-achievement small { color: color-mix(in oklab, var(--color-foreground) 56%, transparent); font-size: .63rem; line-height: 1.25; }
+
+  .profile-friend-list { display: grid; gap: .55rem; }
+  .profile-friend-row { display: flex; align-items: center; gap: .7rem; border-radius: 1rem; padding: .65rem; color: var(--color-foreground); transition: var(--transition-smooth); }
+  .profile-friend-row:hover { background: rgba(58,123,255,.08); }
+  .profile-friend-avatar { position: relative; display: grid; place-items: center; flex: 0 0 auto; width: 2.8rem; height: 2.8rem; border-radius: 1rem; background: var(--gradient-cta); color: #fff; font-weight: 950; box-shadow: var(--shadow-soft); }
+  .profile-friend-row strong { display: block; font-size: .9rem; }
+  .profile-friend-row small { display: inline-flex; align-items: center; gap: .35rem; color: color-mix(in oklab, var(--color-foreground) 56%, transparent); }
+  .profile-friend-row small::before { content: ""; width: .48rem; height: .48rem; border-radius: 999px; background: #94a3b8; }
+  .profile-friend-row small.online::before { background: #22c982; }
+
+  .profile-wide-button { width: 100%; margin-top: .8rem; border-radius: 1rem; }
+  .profile-motivation-card { text-align: center; }
+  .profile-heart-icon { margin: 0 auto .7rem; width: 3rem; height: 3rem; color: #ec4aa8; fill: #ff9bd1; }
+  .profile-motivation-card h3 { margin: 0; color: #b52a7b; font-weight: 950; }
+  .profile-motivation-card p { margin: .45rem 0 .8rem; color: color-mix(in oklab, var(--color-foreground) 64%, transparent); }
+  .profile-motivation-card span { display: block; margin-top: .65rem; color: color-mix(in oklab, var(--color-foreground) 58%, transparent); font-size: .8rem; font-weight: 800; }
+  .profile-secondary-button { display: inline-flex; justify-content: center; width: 100%; margin-top: .8rem; border-radius: 1rem; background: linear-gradient(90deg, #ec4aa8, #7343ff); padding: .75rem 1rem; color: white; font-weight: 950; }
+
+  .profile-activity { display: grid; grid-template-columns: auto 1fr auto; gap: .7rem; align-items: center; padding: .72rem 0; border-bottom: 1px solid rgba(99,102,241,.12); }
+  .profile-activity:last-child { border-bottom: 0; }
+  .profile-activity-icon { display: grid; place-items: center; width: 2.35rem; height: 2.35rem; border-radius: .9rem; background: rgba(58,123,255,.12); color: var(--color-primary); }
+  .profile-activity span { display: block; color: color-mix(in oklab, var(--color-foreground) 60%, transparent); font-size: .78rem; }
+  .profile-activity strong { display: block; font-size: .85rem; }
+  .profile-activity small { color: color-mix(in oklab, var(--color-foreground) 50%, transparent); font-weight: 800; }
+
+  @media (max-width: 1080px) {
+    .profile-orkut-grid { grid-template-columns: 16rem minmax(0,1fr); }
+    .profile-right-rail { grid-column: 2; }
+    .profile-achievements-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 760px) {
+    .profile-product-header { align-items: start; flex-direction: column; }
+    .profile-orkut-grid { display: grid; grid-template-columns: 1fr; }
+    .profile-right-rail { grid-column: auto; }
+    .profile-hero-card { grid-template-columns: 1fr; }
+    .profile-pixel-avatar { width: 7rem; font-size: 3.4rem; }
+    .profile-stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .profile-level-grid { grid-template-columns: 1fr; }
+    .profile-big-emblem { margin-inline: auto; }
+    .profile-achievements-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 430px) {
+    .profile-product-shell { padding-inline: .85rem; }
+    .profile-stats-row { grid-template-columns: 1fr 1fr; }
+    .profile-achievements-grid { grid-template-columns: 1fr; }
+    .profile-social-nav a { padding-inline: .7rem; }
+  }
+}
+
+/* =================================================================
+   WALLPAPER FINAL PATCH — 2 fixed CSLE wallpapers, no stretch/crop
+   -----------------------------------------------------------------
+   User requirement: the uploaded wallpapers must appear complete,
+   never enlarged, cropped or distorted. We keep the unified Social/MSN
+   design system; only the background image changes.
+   ================================================================= */
+@layer base {
+  :root {
+    --theme-image-opacity: 1;
+    --theme-image-blur: 0px;
+    --theme-image-saturate: 1.05;
+    --theme-wallpaper-base: #dff5ff;
+    /* Very light overlay so the wallpaper colors stay vivid */
+    --theme-overlay: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.00) 0%,
+      rgba(255, 255, 255, 0.04) 100%
+    );
+    --theme-overlay-focus: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.10) 0%,
+      rgba(255, 255, 255, 0.18) 100%
+    );
+  }
+
+  body {
+    background-color: var(--theme-wallpaper-base);
+    background-image: none;
+  }
+}
+
+@layer utilities {
+  .atmosphere-root {
+    background: var(--theme-wallpaper-base);
+  }
+
+  /* Confine the wallpaper to the app container width so a portrait
+     phone wallpaper renders naturally instead of stretching across
+     the whole desktop viewport. */
+  .atmosphere-image {
+    background-color: var(--theme-wallpaper-base);
+    background-image: var(--theme-image-main, none);
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    width: min(100%, var(--layout-container-max, 28rem)) !important;
+    left: 50% !important;
+    right: auto !important;
+    margin-left: calc(min(100%, var(--layout-container-max, 28rem)) / -2) !important;
+  }
+
+  /* Cards stay readable on both blue and purple wallpapers. */
+  .surface-card,
+  .surface-elevated,
+  .v7-feature-card,
+  .v6-hero,
+  .msn-window,
+  .readable-panel {
+    background-color: rgba(255, 255, 255, 0.94) !important;
+    color: var(--color-foreground) !important;
+  }
+
+  .surface-card h1,
+  .surface-card h2,
+  .surface-card h3,
+  .surface-card p,
+  .surface-elevated h1,
+  .surface-elevated h2,
+  .surface-elevated h3,
+  .surface-elevated p {
+    color: inherit;
+  }
+
+  /* Personalizar thumbnails must show the whole wallpaper too. */
+  .wallpaper-preview-img {
+    object-fit: contain !important;
+    background-color: var(--theme-wallpaper-base);
+  }
+}
+
+/* Chat addiction layer — subtle motion, readable stickers, mobile tap feedback */
+@keyframes csle-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-message-in {
+  animation: csle-message-in 180ms ease-out both;
+}
+
+.chat-sticker-image {
+  max-width: 10rem;
+  max-height: 10rem;
+  object-fit: contain;
+}
+
+@media (hover: none) {
+  button:active,
+  a:active {
+    transform: scale(0.98);
   }
 }

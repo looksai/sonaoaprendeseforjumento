@@ -1,0 +1,23 @@
+{
+  "name": "csle-voice-realtime-server",
+  "version": "1.0.0",
+  "description": "Voice server for CSLE / Last Course: WebSocket voice turns, transcription, correction and TTS.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "health": "node -e \"fetch('http://localhost:'+(process.env.PORT||8787)+'/health').then(r=>r.json()).then(console.log)\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "form-data": "^4.0.1",
+    "multer": "^1.4.5-lts.1",
+    "ws": "^8.18.0"
+  }
+}
