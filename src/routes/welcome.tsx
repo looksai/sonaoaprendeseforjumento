@@ -35,6 +35,10 @@ function WelcomeLanding() {
   const { decided } = useConsent();
   const { profile } = useProgress();
 
+  useEffect(() => {
+    navigate({ to: "/" });
+  }, [navigate]);
+
   // Already authenticated? Send them to the right next step.
   useEffect(() => {
     if (loading || !user) return;
