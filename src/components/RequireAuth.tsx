@@ -10,12 +10,7 @@
 // Routes that ARE the next-step targets themselves (consent, onboarding, intro,
 // auth, welcome) must NOT be wrapped — they handle their own redirect logic.
 
-import { useEffect, type ReactNode } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import { Loader2 } from "lucide-react";
-import { useAuth } from "@/store/useAuth";
-import { useConsent } from "@/store/useConsent";
-import { useProgress } from "@/store/useProgress";
+import type { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -24,33 +19,6 @@ interface Props {
 }
 
 export function RequireAuth({ children, requireProfile = true }: Props) {
-  const navigate = useNavigate();
-  const { user, loading } = useAuth();
-  const { decided } = useConsent();
-  const { profile } = useProgress();
-
-  useEffect(() => {
-    if (loading) return;
-    if (!user) {
-      navigate({ to: "/welcome" });
-      return;
-    }
-    if (!decided) {
-      navigate({ to: "/consent" });
-      return;
-    }
-    if (requireProfile && !profile) {
-      navigate({ to: "/onboarding" });
-    }
-  }, [user, loading, decided, profile, requireProfile, navigate]);
-
-  if (loading || !user || !decided || (requireProfile && !profile)) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-hero">
-        <Loader2 className="h-6 w-6 animate-spin text-primary" />
-      </div>
-    );
-  }
-
+  void requireProfile;
   return <>{children}</>;
 }

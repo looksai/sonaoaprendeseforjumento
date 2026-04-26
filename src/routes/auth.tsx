@@ -37,6 +37,10 @@ function AuthPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    navigate({ to: "/" });
+  }, [navigate]);
+
+  useEffect(() => {
     if (loading || !user) return;
     if (!decided) navigate({ to: "/consent" });
     else if (!profile) navigate({ to: "/onboarding" });
