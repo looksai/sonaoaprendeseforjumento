@@ -31,6 +31,7 @@ import { Route as ConquistasRouteImport } from './routes/conquistas'
 import { Route as ComunidadeRouteImport } from './routes/comunidade'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ICodeRouteImport } from './routes/i.$code'
 import { Route as LicaoLevelIdUnitIdLessonIdRouteImport } from './routes/licao.$levelId.$unitId.$lessonId'
 
 const WelcomeRoute = WelcomeRouteImport.update({
@@ -143,6 +144,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ICodeRoute = ICodeRouteImport.update({
+  id: '/i/$code',
+  path: '/i/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LicaoLevelIdUnitIdLessonIdRoute =
   LicaoLevelIdUnitIdLessonIdRouteImport.update({
     id: '/licao/$levelId/$unitId/$lessonId',
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/series': typeof SeriesRoute
   '/social': typeof SocialRoute
   '/welcome': typeof WelcomeRoute
+  '/i/$code': typeof ICodeRoute
   '/licao/$levelId/$unitId/$lessonId': typeof LicaoLevelIdUnitIdLessonIdRoute
 }
 export interface FileRoutesByTo {
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/series': typeof SeriesRoute
   '/social': typeof SocialRoute
   '/welcome': typeof WelcomeRoute
+  '/i/$code': typeof ICodeRoute
   '/licao/$levelId/$unitId/$lessonId': typeof LicaoLevelIdUnitIdLessonIdRoute
 }
 export interface FileRoutesById {
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/series': typeof SeriesRoute
   '/social': typeof SocialRoute
   '/welcome': typeof WelcomeRoute
+  '/i/$code': typeof ICodeRoute
   '/licao/$levelId/$unitId/$lessonId': typeof LicaoLevelIdUnitIdLessonIdRoute
 }
 export interface FileRouteTypes {
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/series'
     | '/social'
     | '/welcome'
+    | '/i/$code'
     | '/licao/$levelId/$unitId/$lessonId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/series'
     | '/social'
     | '/welcome'
+    | '/i/$code'
     | '/licao/$levelId/$unitId/$lessonId'
   id:
     | '__root__'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/series'
     | '/social'
     | '/welcome'
+    | '/i/$code'
     | '/licao/$levelId/$unitId/$lessonId'
   fileRoutesById: FileRoutesById
 }
@@ -327,6 +339,7 @@ export interface RootRouteChildren {
   SeriesRoute: typeof SeriesRoute
   SocialRoute: typeof SocialRoute
   WelcomeRoute: typeof WelcomeRoute
+  ICodeRoute: typeof ICodeRoute
   LicaoLevelIdUnitIdLessonIdRoute: typeof LicaoLevelIdUnitIdLessonIdRoute
 }
 
@@ -486,6 +499,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/i/$code': {
+      id: '/i/$code'
+      path: '/i/$code'
+      fullPath: '/i/$code'
+      preLoaderRoute: typeof ICodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/licao/$levelId/$unitId/$lessonId': {
       id: '/licao/$levelId/$unitId/$lessonId'
       path: '/licao/$levelId/$unitId/$lessonId'
@@ -519,8 +539,18 @@ const rootRouteChildren: RootRouteChildren = {
   SeriesRoute: SeriesRoute,
   SocialRoute: SocialRoute,
   WelcomeRoute: WelcomeRoute,
+  ICodeRoute: ICodeRoute,
   LicaoLevelIdUnitIdLessonIdRoute: LicaoLevelIdUnitIdLessonIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
