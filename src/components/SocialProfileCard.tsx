@@ -9,6 +9,7 @@ export function SocialProfileCard({ user }: { user: SocialUser }) {
   const { followingIds, blockedIds, follow, unfollow, block, unblock } = useSocial();
   const following = followingIds.includes(user.id);
   const blocked = blockedIds.includes(user.id);
+  const interests = user.interests ?? [];
 
   return (
     <div className={`surface-card rounded-2xl border p-4 ${blocked ? "border-destructive/40 opacity-60" : "border-border/70"}`}>
@@ -20,12 +21,12 @@ export function SocialProfileCard({ user }: { user: SocialUser }) {
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <h3 className="truncate font-bold text-foreground">{user.name}</h3>
-            <Badge variant="secondary" className="rounded-full text-[0.62rem]">{user.level}</Badge>
+            {user.level && <Badge variant="secondary" className="rounded-full text-[0.62rem]">{user.level}</Badge>}
           </div>
-          <p className="text-xs text-muted-foreground">@{user.handle} · {user.region}</p>
+          <p className="text-xs text-muted-foreground">@{user.handle}{user.region ? ` · ${user.region}` : ""}</p>
           <p className="mt-2 text-sm leading-relaxed text-foreground/85">{user.bio}</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
-            {user.interests.slice(0, 4).map((interest) => (
+            {interests.slice(0, 4).map((interest) => (
               <span key={interest} className="rounded-full border border-border bg-background/40 px-2 py-1 text-[0.68rem] text-muted-foreground">{interest}</span>
             ))}
           </div>
