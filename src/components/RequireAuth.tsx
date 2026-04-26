@@ -24,6 +24,10 @@ interface Props {
 }
 
 export function RequireAuth({ children, requireProfile = true }: Props) {
+  if (import.meta.env.DEV || import.meta.env.VITE_DISABLE_AUTH === "true") {
+    return <>{children}</>;
+  }
+
   const navigate = useNavigate();
   const { user, loading } = useAuth();
   const { decided } = useConsent();
