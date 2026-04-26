@@ -24,6 +24,9 @@ export function GoogleSignInButton({ className = "", label = "Continuar com Goog
         setBusy(false);
         return;
       }
+      if (!result.redirected) {
+        setBusy(false);
+      }
       // On success: browser redirects, or session is set and AuthProvider routes to /
     } catch {
       toast.error("Não consegui conectar agora. Tente novamente.");
