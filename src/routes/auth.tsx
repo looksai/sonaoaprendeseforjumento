@@ -8,7 +8,6 @@ import { useConsent } from "@/store/useConsent";
 import { useProgress } from "@/store/useProgress";
 import { Sparkles, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -37,10 +36,6 @@ function AuthPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    navigate({ to: "/" });
-  }, [navigate]);
-
-  useEffect(() => {
     if (loading || !user) return;
     if (!decided) navigate({ to: "/consent" });
     else if (!profile) navigate({ to: "/onboarding" });
@@ -58,6 +53,7 @@ function AuthPage() {
           setError(translate(error));
         } else {
           toast.success("Bem-vindo de volta ✨");
+          navigate({ to: profile ? "/" : "/onboarding" });
         }
       } else {
         if (password.length < 6) {
@@ -73,6 +69,7 @@ function AuthPage() {
           setError(translate(error));
         } else {
           toast.success("Conta criada — vamos começar!");
+          navigate({ to: "/onboarding" });
         }
       }
     } finally {
@@ -105,20 +102,7 @@ function AuthPage() {
               : "Você está a um passo de parar de procurar o próximo curso."}
           </p>
 
-          <div className="mt-7 space-y-3">
-            <GoogleSignInButton
-              label={mode === "signin" ? "Continuar com Google" : "Criar conta com Google"}
-            />
-            <div className="flex items-center gap-3">
-              <div className="h-px flex-1 bg-border" />
-              <span className="text-[0.65rem] font-semibold uppercase tracking-widest text-muted-foreground">
-                ou use email
-              </span>
-              <div className="h-px flex-1 bg-border" />
-            </div>
-          </div>
-
-          <form onSubmit={onSubmit} className="mt-4 space-y-4">
+          <form onSubmit={onSubmit} className="mt-7 space-y-4">
             {mode === "signup" && (
               <div className="space-y-1.5">
                 <Label htmlFor="name" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
