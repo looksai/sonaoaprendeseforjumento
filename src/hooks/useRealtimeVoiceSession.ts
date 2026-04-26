@@ -207,13 +207,27 @@ export function useRealtimeVoiceSession() {
         setStatus("error");
         return;
       }
-      await connect(options);
-      const ws = wsRef.current;
+      let ws: WebSocket | undefined;
+      try {
+        ws = await connect(options);
+      } catch {
+        return;
+      }
       if (!ws) return;
+      if (typeof MediaRecorder === "undefined") {
+        setError("Seu navegador não suporta gravação de áudio realtime.");
+        setStatus("error");
+        return;
+      }
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
-      const recorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+        ? "audio/webm;codecs=opus"
+        : MediaRecorder.isTypeSupported("audio/webm")
+          ? "audio/webm"
+          : "";
+      const recorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
       recorderRef.current = recorder;
       recorder.ondataavailable = async (event) => {
         if (event.data.size <= 0) return;
