@@ -12,6 +12,9 @@ export type SocialUser = {
   avatarUrl?: string | null;
   bio?: string | null;
   online?: boolean;
+  level?: string;
+  region?: string;
+  interests?: string[];
 };
 
 export type SocialRoom = {
