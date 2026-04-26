@@ -205,6 +205,14 @@ function AuthPage() {
           </div>
 
           <div className="mt-8 text-center">
+            <button
+              type="button"
+              onClick={() => navigate({ to: "/" })}
+              className="mb-4 text-sm font-semibold text-primary hover:underline"
+            >
+              Continuar sem login para testar
+            </button>
+            <br />
             <Link
               to="/welcome"
               className="text-xs text-muted-foreground hover:text-foreground"
