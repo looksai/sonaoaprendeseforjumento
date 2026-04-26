@@ -122,12 +122,12 @@ export function useRealtimeVoiceSession() {
         pushEvent("processing", "Mia está pensando na resposta.");
       }
       if (message.type === "transcript") {
-        const text = message.text ?? "";
+        const text = message.text ?? message.transcript ?? "";
         setTranscript(text);
         if (text) pushEvent("transcript", text);
       }
       if (message.type === "tutor") {
-        const text = message.text ?? "";
+        const text = [message.reply, message.nextPrompt].filter(Boolean).join("\n") || message.text || message.explanation || "";
         setTutorReply(text);
         if (text) pushEvent("mia", text);
       }
