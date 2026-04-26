@@ -9,38 +9,489 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WelcomeRouteImport } from './routes/welcome'
+import { Route as SocialRouteImport } from './routes/social'
+import { Route as SeriesRouteImport } from './routes/series'
+import { Route as RevisarRouteImport } from './routes/revisar'
+import { Route as ReflexaoRouteImport } from './routes/reflexao'
+import { Route as PortuguesRouteImport } from './routes/portugues'
+import { Route as PersonalizarRouteImport } from './routes/personalizar'
+import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as MusicaRouteImport } from './routes/musica'
+import { Route as LegendasRouteImport } from './routes/legendas'
+import { Route as IntroRouteImport } from './routes/intro'
+import { Route as ExplorarRouteImport } from './routes/explorar'
+import { Route as DirigindoRouteImport } from './routes/dirigindo'
+import { Route as DebugRouteImport } from './routes/debug'
+import { Route as CursoRouteImport } from './routes/curso'
+import { Route as ConversarRouteImport } from './routes/conversar'
+import { Route as ConsentRouteImport } from './routes/consent'
+import { Route as ConquistasRouteImport } from './routes/conquistas'
+import { Route as ComunidadeRouteImport } from './routes/comunidade'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ICodeRouteImport } from './routes/i.$code'
+import { Route as LicaoLevelIdUnitIdLessonIdRouteImport } from './routes/licao.$levelId.$unitId.$lessonId'
 
+const WelcomeRoute = WelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SocialRoute = SocialRouteImport.update({
+  id: '/social',
+  path: '/social',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SeriesRoute = SeriesRouteImport.update({
+  id: '/series',
+  path: '/series',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RevisarRoute = RevisarRouteImport.update({
+  id: '/revisar',
+  path: '/revisar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReflexaoRoute = ReflexaoRouteImport.update({
+  id: '/reflexao',
+  path: '/reflexao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortuguesRoute = PortuguesRouteImport.update({
+  id: '/portugues',
+  path: '/portugues',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PersonalizarRoute = PersonalizarRouteImport.update({
+  id: '/personalizar',
+  path: '/personalizar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MusicaRoute = MusicaRouteImport.update({
+  id: '/musica',
+  path: '/musica',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegendasRoute = LegendasRouteImport.update({
+  id: '/legendas',
+  path: '/legendas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntroRoute = IntroRouteImport.update({
+  id: '/intro',
+  path: '/intro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExplorarRoute = ExplorarRouteImport.update({
+  id: '/explorar',
+  path: '/explorar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DirigindoRoute = DirigindoRouteImport.update({
+  id: '/dirigindo',
+  path: '/dirigindo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DebugRoute = DebugRouteImport.update({
+  id: '/debug',
+  path: '/debug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CursoRoute = CursoRouteImport.update({
+  id: '/curso',
+  path: '/curso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConversarRoute = ConversarRouteImport.update({
+  id: '/conversar',
+  path: '/conversar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsentRoute = ConsentRouteImport.update({
+  id: '/consent',
+  path: '/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConquistasRoute = ConquistasRouteImport.update({
+  id: '/conquistas',
+  path: '/conquistas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComunidadeRoute = ComunidadeRouteImport.update({
+  id: '/comunidade',
+  path: '/comunidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ICodeRoute = ICodeRouteImport.update({
+  id: '/i/$code',
+  path: '/i/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LicaoLevelIdUnitIdLessonIdRoute =
+  LicaoLevelIdUnitIdLessonIdRouteImport.update({
+    id: '/licao/$levelId/$unitId/$lessonId',
+    path: '/licao/$levelId/$unitId/$lessonId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/comunidade': typeof ComunidadeRoute
+  '/conquistas': typeof ConquistasRoute
+  '/consent': typeof ConsentRoute
+  '/conversar': typeof ConversarRoute
+  '/curso': typeof CursoRoute
+  '/debug': typeof DebugRoute
+  '/dirigindo': typeof DirigindoRoute
+  '/explorar': typeof ExplorarRoute
+  '/intro': typeof IntroRoute
+  '/legendas': typeof LegendasRoute
+  '/musica': typeof MusicaRoute
+  '/onboarding': typeof OnboardingRoute
+  '/perfil': typeof PerfilRoute
+  '/personalizar': typeof PersonalizarRoute
+  '/portugues': typeof PortuguesRoute
+  '/reflexao': typeof ReflexaoRoute
+  '/revisar': typeof RevisarRoute
+  '/series': typeof SeriesRoute
+  '/social': typeof SocialRoute
+  '/welcome': typeof WelcomeRoute
+  '/i/$code': typeof ICodeRoute
+  '/licao/$levelId/$unitId/$lessonId': typeof LicaoLevelIdUnitIdLessonIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/comunidade': typeof ComunidadeRoute
+  '/conquistas': typeof ConquistasRoute
+  '/consent': typeof ConsentRoute
+  '/conversar': typeof ConversarRoute
+  '/curso': typeof CursoRoute
+  '/debug': typeof DebugRoute
+  '/dirigindo': typeof DirigindoRoute
+  '/explorar': typeof ExplorarRoute
+  '/intro': typeof IntroRoute
+  '/legendas': typeof LegendasRoute
+  '/musica': typeof MusicaRoute
+  '/onboarding': typeof OnboardingRoute
+  '/perfil': typeof PerfilRoute
+  '/personalizar': typeof PersonalizarRoute
+  '/portugues': typeof PortuguesRoute
+  '/reflexao': typeof ReflexaoRoute
+  '/revisar': typeof RevisarRoute
+  '/series': typeof SeriesRoute
+  '/social': typeof SocialRoute
+  '/welcome': typeof WelcomeRoute
+  '/i/$code': typeof ICodeRoute
+  '/licao/$levelId/$unitId/$lessonId': typeof LicaoLevelIdUnitIdLessonIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/comunidade': typeof ComunidadeRoute
+  '/conquistas': typeof ConquistasRoute
+  '/consent': typeof ConsentRoute
+  '/conversar': typeof ConversarRoute
+  '/curso': typeof CursoRoute
+  '/debug': typeof DebugRoute
+  '/dirigindo': typeof DirigindoRoute
+  '/explorar': typeof ExplorarRoute
+  '/intro': typeof IntroRoute
+  '/legendas': typeof LegendasRoute
+  '/musica': typeof MusicaRoute
+  '/onboarding': typeof OnboardingRoute
+  '/perfil': typeof PerfilRoute
+  '/personalizar': typeof PersonalizarRoute
+  '/portugues': typeof PortuguesRoute
+  '/reflexao': typeof ReflexaoRoute
+  '/revisar': typeof RevisarRoute
+  '/series': typeof SeriesRoute
+  '/social': typeof SocialRoute
+  '/welcome': typeof WelcomeRoute
+  '/i/$code': typeof ICodeRoute
+  '/licao/$levelId/$unitId/$lessonId': typeof LicaoLevelIdUnitIdLessonIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/comunidade'
+    | '/conquistas'
+    | '/consent'
+    | '/conversar'
+    | '/curso'
+    | '/debug'
+    | '/dirigindo'
+    | '/explorar'
+    | '/intro'
+    | '/legendas'
+    | '/musica'
+    | '/onboarding'
+    | '/perfil'
+    | '/personalizar'
+    | '/portugues'
+    | '/reflexao'
+    | '/revisar'
+    | '/series'
+    | '/social'
+    | '/welcome'
+    | '/i/$code'
+    | '/licao/$levelId/$unitId/$lessonId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/comunidade'
+    | '/conquistas'
+    | '/consent'
+    | '/conversar'
+    | '/curso'
+    | '/debug'
+    | '/dirigindo'
+    | '/explorar'
+    | '/intro'
+    | '/legendas'
+    | '/musica'
+    | '/onboarding'
+    | '/perfil'
+    | '/personalizar'
+    | '/portugues'
+    | '/reflexao'
+    | '/revisar'
+    | '/series'
+    | '/social'
+    | '/welcome'
+    | '/i/$code'
+    | '/licao/$levelId/$unitId/$lessonId'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/comunidade'
+    | '/conquistas'
+    | '/consent'
+    | '/conversar'
+    | '/curso'
+    | '/debug'
+    | '/dirigindo'
+    | '/explorar'
+    | '/intro'
+    | '/legendas'
+    | '/musica'
+    | '/onboarding'
+    | '/perfil'
+    | '/personalizar'
+    | '/portugues'
+    | '/reflexao'
+    | '/revisar'
+    | '/series'
+    | '/social'
+    | '/welcome'
+    | '/i/$code'
+    | '/licao/$levelId/$unitId/$lessonId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  ComunidadeRoute: typeof ComunidadeRoute
+  ConquistasRoute: typeof ConquistasRoute
+  ConsentRoute: typeof ConsentRoute
+  ConversarRoute: typeof ConversarRoute
+  CursoRoute: typeof CursoRoute
+  DebugRoute: typeof DebugRoute
+  DirigindoRoute: typeof DirigindoRoute
+  ExplorarRoute: typeof ExplorarRoute
+  IntroRoute: typeof IntroRoute
+  LegendasRoute: typeof LegendasRoute
+  MusicaRoute: typeof MusicaRoute
+  OnboardingRoute: typeof OnboardingRoute
+  PerfilRoute: typeof PerfilRoute
+  PersonalizarRoute: typeof PersonalizarRoute
+  PortuguesRoute: typeof PortuguesRoute
+  ReflexaoRoute: typeof ReflexaoRoute
+  RevisarRoute: typeof RevisarRoute
+  SeriesRoute: typeof SeriesRoute
+  SocialRoute: typeof SocialRoute
+  WelcomeRoute: typeof WelcomeRoute
+  ICodeRoute: typeof ICodeRoute
+  LicaoLevelIdUnitIdLessonIdRoute: typeof LicaoLevelIdUnitIdLessonIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/social': {
+      id: '/social'
+      path: '/social'
+      fullPath: '/social'
+      preLoaderRoute: typeof SocialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/series': {
+      id: '/series'
+      path: '/series'
+      fullPath: '/series'
+      preLoaderRoute: typeof SeriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/revisar': {
+      id: '/revisar'
+      path: '/revisar'
+      fullPath: '/revisar'
+      preLoaderRoute: typeof RevisarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reflexao': {
+      id: '/reflexao'
+      path: '/reflexao'
+      fullPath: '/reflexao'
+      preLoaderRoute: typeof ReflexaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portugues': {
+      id: '/portugues'
+      path: '/portugues'
+      fullPath: '/portugues'
+      preLoaderRoute: typeof PortuguesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/personalizar': {
+      id: '/personalizar'
+      path: '/personalizar'
+      fullPath: '/personalizar'
+      preLoaderRoute: typeof PersonalizarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/musica': {
+      id: '/musica'
+      path: '/musica'
+      fullPath: '/musica'
+      preLoaderRoute: typeof MusicaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legendas': {
+      id: '/legendas'
+      path: '/legendas'
+      fullPath: '/legendas'
+      preLoaderRoute: typeof LegendasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/intro': {
+      id: '/intro'
+      path: '/intro'
+      fullPath: '/intro'
+      preLoaderRoute: typeof IntroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explorar': {
+      id: '/explorar'
+      path: '/explorar'
+      fullPath: '/explorar'
+      preLoaderRoute: typeof ExplorarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dirigindo': {
+      id: '/dirigindo'
+      path: '/dirigindo'
+      fullPath: '/dirigindo'
+      preLoaderRoute: typeof DirigindoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/debug': {
+      id: '/debug'
+      path: '/debug'
+      fullPath: '/debug'
+      preLoaderRoute: typeof DebugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/curso': {
+      id: '/curso'
+      path: '/curso'
+      fullPath: '/curso'
+      preLoaderRoute: typeof CursoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conversar': {
+      id: '/conversar'
+      path: '/conversar'
+      fullPath: '/conversar'
+      preLoaderRoute: typeof ConversarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consent': {
+      id: '/consent'
+      path: '/consent'
+      fullPath: '/consent'
+      preLoaderRoute: typeof ConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conquistas': {
+      id: '/conquistas'
+      path: '/conquistas'
+      fullPath: '/conquistas'
+      preLoaderRoute: typeof ConquistasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comunidade': {
+      id: '/comunidade'
+      path: '/comunidade'
+      fullPath: '/comunidade'
+      preLoaderRoute: typeof ComunidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +499,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/i/$code': {
+      id: '/i/$code'
+      path: '/i/$code'
+      fullPath: '/i/$code'
+      preLoaderRoute: typeof ICodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/licao/$levelId/$unitId/$lessonId': {
+      id: '/licao/$levelId/$unitId/$lessonId'
+      path: '/licao/$levelId/$unitId/$lessonId'
+      fullPath: '/licao/$levelId/$unitId/$lessonId'
+      preLoaderRoute: typeof LicaoLevelIdUnitIdLessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  ComunidadeRoute: ComunidadeRoute,
+  ConquistasRoute: ConquistasRoute,
+  ConsentRoute: ConsentRoute,
+  ConversarRoute: ConversarRoute,
+  CursoRoute: CursoRoute,
+  DebugRoute: DebugRoute,
+  DirigindoRoute: DirigindoRoute,
+  ExplorarRoute: ExplorarRoute,
+  IntroRoute: IntroRoute,
+  LegendasRoute: LegendasRoute,
+  MusicaRoute: MusicaRoute,
+  OnboardingRoute: OnboardingRoute,
+  PerfilRoute: PerfilRoute,
+  PersonalizarRoute: PersonalizarRoute,
+  PortuguesRoute: PortuguesRoute,
+  ReflexaoRoute: ReflexaoRoute,
+  RevisarRoute: RevisarRoute,
+  SeriesRoute: SeriesRoute,
+  SocialRoute: SocialRoute,
+  WelcomeRoute: WelcomeRoute,
+  ICodeRoute: ICodeRoute,
+  LicaoLevelIdUnitIdLessonIdRoute: LicaoLevelIdUnitIdLessonIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

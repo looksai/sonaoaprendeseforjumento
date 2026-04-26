@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSLE Voice Test</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 16px; background:#0b1d2c; color:#fff; }
+    button { padding: 12px 16px; border-radius: 12px; border:0; margin: 6px; font-weight:700; }
+    pre { background: rgba(255,255,255,.1); padding: 12px; border-radius: 12px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>CSLE Voice Server Test</h1>
+  <button id="connect">Conectar</button>
+  <button id="start">Gravar</button>
+  <button id="stop">Parar e enviar</button>
+  <audio id="audio" controls></audio>
+  <pre id="log"></pre>
+<script>
+let ws, recorder;
+const log = (x) => document.querySelector('#log').textContent += `\n${typeof x === 'string' ? x : JSON.stringify(x, null, 2)}`;
+
+document.querySelector('#connect').onclick = () => {
+  ws = new WebSocket(`${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/voice`);
+  ws.binaryType = 'arraybuffer';
+  ws.onmessage = (e) => {
+    const msg = JSON.parse(e.data);
+    log(msg);
+    if (msg.type === 'audio') {
+      const bytes = Uint8Array.from(atob(msg.base64), c => c.charCodeAt(0));
+      const blob = new Blob([bytes], { type: msg.mime });
+      document.querySelector('#audio').src = URL.createObjectURL(blob);
+      document.querySelector('#audio').play();
+    }
+  };
+};
+
+document.querySelector('#start').onclick = async () => {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+  ws.send(JSON.stringify({ type:'start', meta:{ userName:'Alan', language:'en', mode:'conversation' }}));
+  recorder.ondataavailable = async (e) => {
+    if (e.data.size > 0 && ws?.readyState === WebSocket.OPEN) ws.send(await e.data.arrayBuffer());
+  };
+  recorder.start(500);
+  log('recording...');
+};
+
+document.querySelector('#stop').onclick = () => {
+  recorder.stop();
+  setTimeout(() => ws.send(JSON.stringify({ type:'commit' })), 600);
+};
+</script>
+</body>
+</html>
