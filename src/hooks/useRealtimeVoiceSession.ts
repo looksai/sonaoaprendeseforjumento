@@ -167,33 +167,34 @@ export function useRealtimeVoiceSession() {
         setStatus("error");
         return;
       }
-      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) return;
+      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) return wsRef.current;
+      if (connectingRef.current) return connectingRef.current;
 
       setError(null);
       setStatus("connecting");
       const ws = new WebSocket(wsUrl);
-      wsRef.current = ws;
-      ws.onmessage = handleMessage;
-      ws.onerror = () => {
-        setError("Não consegui conectar ao servidor de voz.");
-        setStatus("error");
-      };
-      ws.onclose = () => {
-        wsRef.current = null;
-        if (status !== "idle") setStatus("idle");
-      };
-      ws.onopen = () => {
-        ws.send(
-          JSON.stringify({
-            type: "start",
-            meta: {
-              userName: options.userName ?? "Aluno",
-              language: options.language ?? "en",
-              mode: options.mode ?? "conversation",
-            },
-          }),
-        );
-      };
+      const ready = new Promise<WebSocket>((resolve, reject) => {
+        wsRef.current = ws;
+        ws.onmessage = handleMessage;
+        ws.onerror = () => {
+          setError("Não consegui conectar ao servidor de voz.");
+          setStatus("error");
+          reject(new Error("voice websocket connection failed"));
+        };
+        ws.onclose = () => {
+          wsRef.current = null;
+          connectingRef.current = null;
+          if (status !== "idle") setStatus("idle");
+        };
+        ws.onopen = () => {
+          ws.send(JSON.stringify({ type: "start", meta: { userName: options.userName ?? "Aluno", language: options.language ?? "en", mode: options.mode ?? "conversation" } }));
+          resolve(ws);
+        };
+      }).finally(() => {
+        connectingRef.current = null;
+      });
+      connectingRef.current = ready;
+      return ready;
     },
     [configured, handleMessage, status, wsUrl],
   );
