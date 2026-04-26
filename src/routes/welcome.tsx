@@ -8,7 +8,6 @@ import { Sparkles, Mic, Brain, Users, Tv, ArrowRight } from "lucide-react";
 import { useAuth } from "@/store/useAuth";
 import { useConsent } from "@/store/useConsent";
 import { useProgress } from "@/store/useProgress";
-import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 
 export const Route = createFileRoute("/welcome")({
   head: () => ({
@@ -103,13 +102,18 @@ function WelcomeLanding() {
 
         {/* CTAs */}
         <div className="mt-8 space-y-3">
-          <GoogleSignInButton label="Continuar com Google" />
-
           <Link
             to="/auth"
             className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-cta text-base font-bold text-primary-foreground shadow-glow transition-bounce active:scale-[0.99]"
           >
-            Entrar com email <ArrowRight className="h-4 w-4" />
+            Entrar ou criar conta <ArrowRight className="h-4 w-4" />
+          </Link>
+
+          <Link
+            to="/"
+            className="flex h-12 w-full items-center justify-center rounded-xl bg-card text-base font-bold text-foreground shadow-card transition-bounce active:scale-[0.99]"
+          >
+            Continuar sem login para testar
           </Link>
 
           <p className="pt-2 text-center text-[0.7rem] leading-relaxed text-muted-foreground">
