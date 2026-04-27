@@ -307,8 +307,8 @@ async function hydrateProfiles() {
       .select("user_id, status, last_seen");
     const onlineSet = new Set(
       (statuses ?? [])
-        .filter((s: StatusRow) => s.status === "online")
-        .map((s: StatusRow) => s.user_id),
+        .filter((s) => s.status === "online")
+        .map((s) => s.user_id),
     );
     const users: SocialUser[] = (profiles as ProfileRow[]).map((p) => ({
       id: p.user_id,

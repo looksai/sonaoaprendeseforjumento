@@ -59,7 +59,7 @@ export function AvatarUpload({ value, onChange, fallbackInitial, size = 112 }: P
           type="button"
           onClick={() => inputRef.current?.click()}
           aria-label="Escolher foto"
-          className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-smooth hover:bg-black/40 hover:opacity-100"
+          className="absolute inset-0 flex items-center justify-center bg-foreground/0 text-primary-foreground opacity-0 transition-smooth hover:bg-foreground/45 hover:opacity-100"
         >
           {busy ? <Loader2 className="h-6 w-6 animate-spin" /> : <Camera className="h-6 w-6" />}
         </button>
@@ -86,7 +86,6 @@ export function AvatarUpload({ value, onChange, fallbackInitial, size = 112 }: P
         ref={inputRef}
         type="file"
         accept="image/*"
-        capture="user"
         className="hidden"
         onChange={(e) => pick(e.target.files?.[0] ?? null)}
       />
