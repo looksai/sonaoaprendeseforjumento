@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { RequireAuth } from "@/components/RequireAuth";
 import {
   BookOpen,
@@ -51,6 +52,7 @@ function Perfil() {
   const gamification = useGamification();
   const social = useSocial();
   const profile = progress.profile;
+  const [publicBio, setPublicBio] = useState(profile?.motivation ?? "");
 
   if (!profile) {
     return (
@@ -114,7 +116,6 @@ function Perfil() {
                   fallbackInitial={profile.name.charAt(0)}
                   size={210}
                 />
-                <span className="profile-photo-caption"><Camera className="h-3.5 w-3.5" /> adicionar foto</span>
               </div>
               <h2>{profile.name}</h2>
               <p className="profile-handle">@{slugify(profile.name)} · {profile.level}</p>
@@ -156,7 +157,7 @@ function Perfil() {
                 <p className="profile-hero-handle">@{slugify(profile.name)}</p>
                 <span className="profile-online-dot-text"><span /> Online</span>
                 <p className="profile-hero-bio">
-                  {profile.motivation || "Aprendendo inglês com missões, séries, conversa e memória adaptativa."}
+                  {publicBio || "Aprendendo inglês com missões, séries, conversa e memória adaptativa."}
                 </p>
                 <div className="profile-hero-meta">
                   <span><MapPin className="h-4 w-4" /> Brasil</span>
@@ -206,6 +207,16 @@ function Perfil() {
 
             <section className="profile-solid-card profile-about-card">
               <h3>Sobre mim</h3>
+              <label className="profile-bio-editor">
+                <span>Frase pública / bio</span>
+                <textarea
+                  value={publicBio}
+                  onChange={(event) => setPublicBio(event.target.value)}
+                  onBlur={() => progress.setProfile({ ...profile, motivation: publicBio.trim() })}
+                  maxLength={180}
+                  rows={3}
+                />
+              </label>
               <ul>
                 <li><Clapperboard className="h-4 w-4" /> Séries: {shows.slice(0, 3).join(", ")}</li>
                 <li><Music className="h-4 w-4" /> Música: {music.slice(0, 3).join(", ")}</li>
@@ -243,7 +254,9 @@ function Perfil() {
               <div className="profile-friend-list">
                 {friendsPreview.map((friend) => (
                   <Link to="/comunidade" key={friend.id} className="profile-friend-row">
-                    <span className="profile-friend-avatar">{friend.name.charAt(0)}</span>
+                    <span className="profile-friend-avatar">
+                      {friend.avatarUrl ? <img src={friend.avatarUrl} alt={friend.name} /> : friend.name.charAt(0)}
+                    </span>
                     <span>
                       <strong>{friend.name}</strong>
                       <small className={friend.online ? "online" : "offline"}>{friend.online ? "Online" : "Offline"}</small>
