@@ -5,6 +5,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Sparkles, Mic, Brain, Users, Tv, ArrowRight } from "lucide-react";
+import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 import { useAuth } from "@/store/useAuth";
 import { useConsent } from "@/store/useConsent";
 import { useProgress } from "@/store/useProgress";
@@ -33,10 +34,6 @@ function WelcomeLanding() {
   const { user, loading } = useAuth();
   const { decided } = useConsent();
   const { profile } = useProgress();
-
-  useEffect(() => {
-    navigate({ to: "/" });
-  }, [navigate]);
 
   // Already authenticated? Send them to the right next step.
   useEffect(() => {
@@ -102,11 +99,13 @@ function WelcomeLanding() {
 
         {/* CTAs */}
         <div className="mt-8 space-y-3">
+          <GoogleSignInButton />
+
           <Link
             to="/auth"
             className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-cta text-base font-bold text-primary-foreground shadow-glow transition-bounce active:scale-[0.99]"
           >
-            Entrar ou criar conta <ArrowRight className="h-4 w-4" />
+            Entrar com email <ArrowRight className="h-4 w-4" />
           </Link>
 
           <Link
