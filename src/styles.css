@@ -355,21 +355,11 @@
 
 /* ---- THEME 01: OCEAN (default; image atmosphere) ---- */
 :root {
-  --theme-image-opacity: 0.85;
+  --theme-image-opacity: 1;
   --theme-image-blur: 0px;
   --theme-image-saturate: 1;
-  --theme-overlay: linear-gradient(
-    180deg,
-    rgba(8, 24, 48, 0.32) 0%,
-    rgba(12, 36, 72, 0.42) 60%,
-    rgba(8, 28, 60, 0.55) 100%
-  );
-  --theme-overlay-focus: linear-gradient(
-    180deg,
-    rgba(8, 24, 48, 0.55) 0%,
-    rgba(12, 36, 72, 0.62) 60%,
-    rgba(8, 28, 60, 0.72) 100%
-  );
+  --theme-overlay: transparent;
+  --theme-overlay-focus: transparent;
 }
 
 /* =================================================================
