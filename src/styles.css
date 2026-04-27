@@ -453,7 +453,7 @@ html[data-classic-feel] .personal-avatar {
 
   .atmosphere-image {
     background-image: var(--theme-image-main, none);
-    background-size: cover;
+    background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
     background-color: #0b1f33;
@@ -1193,16 +1193,16 @@ html[data-classic-feel] .personal-avatar {
   .atmosphere-image {
     background-color: var(--theme-wallpaper-base);
     background-image: var(--theme-image-main, none);
-    background-size: cover !important;
+    background-size: contain !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
     transform: none !important;
     opacity: 1 !important;
     filter: none !important;
-    width: auto !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin-left: 0 !important;
+    width: min(100%, calc(var(--layout-container-max, 28rem) * 2)) !important;
+    left: 50% !important;
+    right: auto !important;
+    margin-left: calc(min(100%, calc(var(--layout-container-max, 28rem) * 2)) / -2) !important;
   }
 
   /* Cards stay readable on both blue and purple wallpapers. */
