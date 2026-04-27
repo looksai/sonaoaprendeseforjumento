@@ -14,7 +14,311 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      direct_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          kind: string
+          read_at: string | null
+          recipient_id: string
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          kind?: string
+          read_at?: string | null
+          recipient_id: string
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          read_at?: string | null
+          recipient_id?: string
+          sender_id?: string
+        }
+        Relationships: []
+      }
+      message_reactions: {
+        Row: {
+          created_at: string
+          emoji: string
+          id: string
+          message_id: string
+          target_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          emoji: string
+          id?: string
+          message_id: string
+          target_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string
+          id?: string
+          message_id?: string
+          target_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      phrase_reviews: {
+        Row: {
+          correct_count: number
+          created_at: string
+          difficulty: string
+          en: string
+          hesitation_count: number
+          id: string
+          incorrect_count: number
+          interval_days: number
+          last_seen: string
+          lesson_id: string | null
+          next_review: string
+          phrase_key: string
+          pronunciation_score: number | null
+          pt: string | null
+          source: string
+          topic: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          correct_count?: number
+          created_at?: string
+          difficulty?: string
+          en: string
+          hesitation_count?: number
+          id?: string
+          incorrect_count?: number
+          interval_days?: number
+          last_seen?: string
+          lesson_id?: string | null
+          next_review?: string
+          phrase_key: string
+          pronunciation_score?: number | null
+          pt?: string | null
+          source?: string
+          topic?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          correct_count?: number
+          created_at?: string
+          difficulty?: string
+          en?: string
+          hesitation_count?: number
+          id?: string
+          incorrect_count?: number
+          interval_days?: number
+          last_seen?: string
+          lesson_id?: string | null
+          next_review?: string
+          phrase_key?: string
+          pronunciation_score?: number | null
+          pt?: string | null
+          source?: string
+          topic?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string
+          handle: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string
+          handle?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string
+          handle?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      room_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          kind: string
+          room_id: string
+          sender_id: string
+          sender_name: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          kind?: string
+          room_id: string
+          sender_id: string
+          sender_name: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          room_id?: string
+          sender_id?: string
+          sender_name?: string
+        }
+        Relationships: []
+      }
+      sticker_packs: {
+        Row: {
+          created_at: string
+          id: string
+          is_public: boolean
+          name: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          is_public?: boolean
+          name: string
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_public?: boolean
+          name?: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      stickers: {
+        Row: {
+          alt: string | null
+          created_at: string
+          id: string
+          pack_id: string
+          sort_order: number
+          storage_path: string
+        }
+        Insert: {
+          alt?: string | null
+          created_at?: string
+          id?: string
+          pack_id: string
+          sort_order?: number
+          storage_path: string
+        }
+        Update: {
+          alt?: string | null
+          created_at?: string
+          id?: string
+          pack_id?: string
+          sort_order?: number
+          storage_path?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stickers_pack_id_fkey"
+            columns: ["pack_id"]
+            isOneToOne: false
+            referencedRelation: "sticker_packs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_progress: {
+        Row: {
+          completed_lessons: string[]
+          created_at: string
+          current_level: string
+          dopamine_profile: Json | null
+          id: string
+          last_study_date: string | null
+          streak: number
+          total_minutes: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_lessons?: string[]
+          created_at?: string
+          current_level?: string
+          dopamine_profile?: Json | null
+          id?: string
+          last_study_date?: string | null
+          streak?: number
+          total_minutes?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_lessons?: string[]
+          created_at?: string
+          current_level?: string
+          dopamine_profile?: Json | null
+          id?: string
+          last_study_date?: string | null
+          streak?: number
+          total_minutes?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_status: {
+        Row: {
+          last_seen: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          last_seen?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          last_seen?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
