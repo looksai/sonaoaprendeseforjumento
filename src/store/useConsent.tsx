@@ -24,6 +24,10 @@ const LS_ANALYTICS = "lc_consent_analytics";
 const LS_VOICE = "lc_consent_voice";
 const LS_DECIDED = "lc_consent_decided";
 
+function scopedKey(key: string, userId?: string) {
+  return userId ? `${key}:${userId}` : key;
+}
+
 function readLS(key: string): boolean | null {
   if (typeof window === "undefined") return null;
   const v = localStorage.getItem(key);
@@ -56,10 +60,11 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
 
   // Hydrate from localStorage after mount (avoids SSR mismatch).
   useEffect(() => {
-    setDecided(localStorage.getItem(LS_DECIDED) === "true");
-    setAnalyticsState(readLS(LS_ANALYTICS) ?? false);
-    setVoiceState(readLS(LS_VOICE) ?? false);
-  }, []);
+    const userId = user?.id;
+    setDecided(localStorage.getItem(scopedKey(LS_DECIDED, userId)) === "true");
+    setAnalyticsState(readLS(scopedKey(LS_ANALYTICS, userId)) ?? false);
+    setVoiceState(readLS(scopedKey(LS_VOICE, userId)) ?? false);
+  }, [user?.id]);
 
   // Hydrate from backend when user logs in (cross-device consent).
   useEffect(() => {
@@ -74,9 +79,9 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
       if (cancelled || !data) return;
       setAnalyticsState(!!data.consent_analytics);
       setVoiceState(!!data.consent_voice);
-      writeLS(LS_ANALYTICS, !!data.consent_analytics);
-      writeLS(LS_VOICE, !!data.consent_voice);
-      if (typeof window !== "undefined") localStorage.setItem(LS_DECIDED, "true");
+      writeLS(scopedKey(LS_ANALYTICS, user.id), !!data.consent_analytics);
+      writeLS(scopedKey(LS_VOICE, user.id), !!data.consent_voice);
+      if (typeof window !== "undefined") localStorage.setItem(scopedKey(LS_DECIDED, user.id), "true");
       setDecided(true);
     })();
     return () => {
@@ -101,7 +106,7 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
   const setAnalytics = useCallback(
     async (v: boolean) => {
       setAnalyticsState(v);
-      writeLS(LS_ANALYTICS, v);
+      writeLS(scopedKey(LS_ANALYTICS, user?.id), v);
       await persistRemote({ analytics: v });
     },
     [persistRemote],
@@ -110,7 +115,7 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
   const setVoice = useCallback(
     async (v: boolean) => {
       setVoiceState(v);
-      writeLS(LS_VOICE, v);
+      writeLS(scopedKey(LS_VOICE, user?.id), v);
       await persistRemote({ voice: v });
     },
     [persistRemote],
@@ -120,9 +125,9 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
     async (accepted: boolean) => {
       setAnalyticsState(accepted);
       setVoiceState(accepted);
-      writeLS(LS_ANALYTICS, accepted);
-      writeLS(LS_VOICE, accepted);
-      if (typeof window !== "undefined") localStorage.setItem(LS_DECIDED, "true");
+      writeLS(scopedKey(LS_ANALYTICS, user?.id), accepted);
+      writeLS(scopedKey(LS_VOICE, user?.id), accepted);
+      if (typeof window !== "undefined") localStorage.setItem(scopedKey(LS_DECIDED, user?.id), "true");
       setDecided(true);
       await persistRemote({ analytics: accepted, voice: accepted });
     },
@@ -130,9 +135,9 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
   );
 
   const resetDecision = useCallback(() => {
-    if (typeof window !== "undefined") localStorage.removeItem(LS_DECIDED);
+    if (typeof window !== "undefined") localStorage.removeItem(scopedKey(LS_DECIDED, user?.id));
     setDecided(false);
-  }, []);
+  }, [user?.id]);
 
   const value = useMemo<ConsentContextValue>(
     () => ({ decided, analytics, voice, setAnalytics, setVoice, decide, resetDecision }),
