@@ -109,7 +109,7 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
       writeLS(scopedKey(LS_ANALYTICS, user?.id), v);
       await persistRemote({ analytics: v });
     },
-    [persistRemote],
+    [persistRemote, user?.id],
   );
 
   const setVoice = useCallback(
@@ -118,7 +118,7 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
       writeLS(scopedKey(LS_VOICE, user?.id), v);
       await persistRemote({ voice: v });
     },
-    [persistRemote],
+    [persistRemote, user?.id],
   );
 
   const decide = useCallback(
@@ -131,7 +131,7 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
       setDecided(true);
       await persistRemote({ analytics: accepted, voice: accepted });
     },
-    [persistRemote],
+    [persistRemote, user?.id],
   );
 
   const resetDecision = useCallback(() => {
