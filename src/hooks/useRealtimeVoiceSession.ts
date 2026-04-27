@@ -34,7 +34,7 @@ const DEFAULT_CHUNK_MS = 500;
 
 function getVoiceServerUrl() {
   const raw = import.meta.env.VITE_VOICE_SERVER_URL as string | undefined;
-  if (!raw) return "";
+  if (!raw) return "ws://localhost:3001/voice";
   return raw.replace(/\/$/, "");
 }
 
