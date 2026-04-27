@@ -14,7 +14,7 @@ const ROOT = path.resolve(__dirname, '..');
 const TMP = path.join(ROOT, 'tmp');
 await fs.mkdir(TMP, { recursive: true });
 
-const PORT = Number(process.env.PORT || 8787);
+const PORT = Number(process.env.PORT || 3001);
 const MAX_AUDIO_BYTES = Number(process.env.MAX_AUDIO_BYTES || 6_000_000);
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || '*')
   .split(',')

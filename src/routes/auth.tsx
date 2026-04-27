@@ -8,6 +8,7 @@ import { useConsent } from "@/store/useConsent";
 import { useProgress } from "@/store/useProgress";
 import { Sparkles, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -102,7 +103,16 @@ function AuthPage() {
               : "Você está a um passo de parar de procurar o próximo curso."}
           </p>
 
-          <form onSubmit={onSubmit} className="mt-7 space-y-4">
+          <div className="mt-7 space-y-4">
+            <GoogleSignInButton />
+            <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <span className="h-px flex-1 bg-border" />
+              ou email
+              <span className="h-px flex-1 bg-border" />
+            </div>
+          </div>
+
+          <form onSubmit={onSubmit} className="mt-4 space-y-4">
             {mode === "signup" && (
               <div className="space-y-1.5">
                 <Label htmlFor="name" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">

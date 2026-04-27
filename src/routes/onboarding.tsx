@@ -84,8 +84,8 @@ function Onboarding() {
     // Persist Personal identity & voice choice.
     voicePrefs.setVoice(personalVoice);
     personal.activate(personalName.trim() || (personalStyle === "fem" ? "Mia" : "Alex"), personalStyle);
-    // Send the user to the guided first-experience.
-    navigate({ to: "/welcome" });
+    // Send the user to the app after onboarding.
+    navigate({ to: "/" });
   }
 
   function previewVoice(voice: VoiceId) {

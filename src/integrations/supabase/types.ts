@@ -259,6 +259,33 @@ export type Database = {
           },
         ]
       }
+      user_consent: {
+        Row: {
+          consent_analytics: boolean
+          consent_voice: boolean
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          consent_analytics?: boolean
+          consent_voice?: boolean
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          consent_analytics?: boolean
+          consent_voice?: boolean
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_progress: {
         Row: {
           completed_lessons: string[]
