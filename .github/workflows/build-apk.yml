@@ -32,9 +32,29 @@ jobs:
       - name: Build web app
         run: npm run build
 
-      - name: Install Capacitor
+      - name: Prepare Capacitor web folder
         run: |
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          echo "Procurando index.html..."
+          INDEX_PATH=$(find . -path "./node_modules" -prune -o -name "index.html" -print | head -n 1)
+          echo "Index encontrado em: $INDEX_PATH"
+
+          if [ -z "$INDEX_PATH" ]; then
+            echo "Nenhum index.html encontrado depois do build."
+            find . -maxdepth 4 -type f
+            exit 1
+          fi
+
+          BUILD_DIR=$(dirname "$INDEX_PATH")
+          echo "Copiando build de $BUILD_DIR para www"
+          rm -rf www
+          mkdir -p www
+          cp -R "$BUILD_DIR"/. www/
+
+          echo "Conteúdo da pasta www:"
+          ls -la www
+
+      - name: Install Capacitor
+        run: npm install @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Add Android
         run: |
