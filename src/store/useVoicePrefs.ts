@@ -24,7 +24,8 @@ const DEFAULTS: VoicePrefs = {
   voice: "sarah",
   // 0.80 is a comfortable repetition pace.
   speed: 0.80,
-  useElevenLabs: true,
+  // Default to the native browser voice (free, offline, uses Google engine on Android).
+  useElevenLabs: false,
   phoneticMode: "off",
 };
 
