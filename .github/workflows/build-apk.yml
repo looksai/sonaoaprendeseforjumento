@@ -29,8 +29,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Show package scripts
+        run: cat package.json
+
       - name: Build web app
-        run: npm run build
+        run: |
+          npm run build || npm run build:client || npm run generate || npm run export
 
       - name: Prepare Capacitor web folder
         run: |
@@ -40,6 +44,7 @@ jobs:
 
           if [ -z "$INDEX_PATH" ]; then
             echo "Nenhum index.html encontrado depois do build."
+            echo "Arquivos encontrados:"
             find . -maxdepth 4 -type f
             exit 1
           fi
