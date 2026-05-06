@@ -279,29 +279,37 @@
   .transition-smooth   { transition: var(--transition-smooth); }
   .transition-bounce   { transition: var(--transition-bounce); }
 
-  /* Glass surfaces — solid, premium, never washed out */
+  /* Glass surfaces — true glassmorphism with depth */
   .surface-card {
-    background-color: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur)) saturate(120%);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+    position: relative;
+    background:
+      linear-gradient(160deg,
+        color-mix(in oklab, white 70%, transparent) 0%,
+        color-mix(in oklab, white 45%, transparent) 100%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
     border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-card);
     border-radius: var(--layout-card-radius);
     color: var(--color-foreground);
   }
   .surface-elevated {
-    background: linear-gradient(160deg, var(--glass-bg-strong), var(--glass-bg));
-    backdrop-filter: blur(calc(var(--glass-blur) + 2px)) saturate(125%);
-    -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 2px)) saturate(125%);
+    position: relative;
+    background:
+      linear-gradient(160deg,
+        color-mix(in oklab, white 82%, transparent) 0%,
+        color-mix(in oklab, white 55%, transparent) 100%);
+    backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(170%);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(170%);
     border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-elevated);
     border-radius: var(--layout-card-radius);
     color: var(--color-foreground);
   }
   .glass-strong {
-    background-color: var(--glass-bg-strong);
-    backdrop-filter: blur(calc(var(--glass-blur) + 4px)) saturate(130%);
-    -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 4px)) saturate(130%);
+    background: color-mix(in oklab, white 80%, transparent);
+    backdrop-filter: blur(calc(var(--glass-blur) + 10px)) saturate(180%);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 10px)) saturate(180%);
     border: 1px solid var(--glass-border);
     color: var(--color-foreground);
   }
