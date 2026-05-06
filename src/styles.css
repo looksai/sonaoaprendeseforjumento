@@ -1274,3 +1274,384 @@ html[data-classic-feel] .personal-avatar {
     transform: scale(0.98);
   }
 }
+
+/* =================================================================
+   PROFILE — CINEMATIC PREMIUM REDESIGN
+   Dark, glass, neon. Scoped to .profile-product-shell so other
+   screens stay untouched. Mobile-first responsive overrides.
+   ================================================================= */
+@layer utilities {
+  @keyframes profile-orb-float {
+    0%, 100% { transform: translate3d(0,0,0) scale(1); opacity: .55; }
+    50%      { transform: translate3d(2%, -3%, 0) scale(1.05); opacity: .75; }
+  }
+  @keyframes profile-ring-spin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes profile-breathe {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(124,92,255,.45), 0 0 32px 4px rgba(124,92,255,.25); }
+    50%      { box-shadow: 0 0 0 6px rgba(124,92,255,.10), 0 0 56px 10px rgba(236,74,168,.35); }
+  }
+  @keyframes profile-twinkle {
+    0%, 100% { opacity: .25; }
+    50%      { opacity: .9; }
+  }
+  @keyframes profile-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .profile-product-shell {
+    position: relative;
+    color: #e8ecff;
+    isolation: isolate;
+  }
+  /* Cinematic backdrop — nebulae + stars + deep gradients */
+  .profile-product-shell::before {
+    content: "";
+    position: absolute;
+    inset: -4rem -2rem auto -2rem;
+    height: 120%;
+    z-index: -2;
+    background:
+      radial-gradient(60% 50% at 18% 12%, rgba(124,92,255,.40), transparent 60%),
+      radial-gradient(45% 40% at 88% 8%, rgba(56,189,248,.28), transparent 65%),
+      radial-gradient(55% 45% at 70% 95%, rgba(236,74,168,.30), transparent 65%),
+      radial-gradient(40% 35% at 12% 90%, rgba(34,211,238,.22), transparent 70%),
+      linear-gradient(180deg, #06070f 0%, #0a0b1a 40%, #0d0820 100%);
+    filter: saturate(120%);
+    pointer-events: none;
+  }
+  .profile-product-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.85), transparent 60%),
+      radial-gradient(1px 1px at 32% 62%, rgba(255,255,255,.70), transparent 60%),
+      radial-gradient(1.5px 1.5px at 58% 28%, rgba(190,210,255,.85), transparent 60%),
+      radial-gradient(1px 1px at 82% 72%, rgba(255,255,255,.80), transparent 60%),
+      radial-gradient(1.5px 1.5px at 92% 22%, rgba(255,200,240,.80), transparent 60%),
+      radial-gradient(1px 1px at 22% 88%, rgba(255,255,255,.70), transparent 60%),
+      radial-gradient(1px 1px at 68% 90%, rgba(180,255,240,.75), transparent 60%);
+    animation: profile-twinkle 4s ease-in-out infinite;
+    opacity: .9;
+  }
+
+  /* Header text */
+  .profile-product-shell .profile-product-header h1 {
+    color: #ffffff;
+    background: linear-gradient(120deg, #ffffff 0%, #c9b8ff 45%, #ff9ad6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 6px 40px rgba(124,92,255,.25);
+  }
+  .profile-product-shell .profile-product-header p {
+    color: rgba(220,225,255,.72);
+  }
+  .profile-product-shell .profile-eyebrow {
+    color: #8ab8ff;
+    text-shadow: 0 0 18px rgba(56,189,248,.45);
+  }
+  .profile-product-shell .profile-settings-pill {
+    background: linear-gradient(135deg, rgba(124,92,255,.22), rgba(56,189,248,.15));
+    border: 1px solid rgba(180,180,255,.20);
+    color: #eef0ff;
+    box-shadow: 0 8px 30px -10px rgba(124,92,255,.45), inset 0 1px 0 rgba(255,255,255,.10);
+    backdrop-filter: blur(14px) saturate(160%);
+  }
+  .profile-product-shell .profile-settings-pill:hover {
+    box-shadow: 0 12px 40px -8px rgba(236,74,168,.55), inset 0 1px 0 rgba(255,255,255,.18);
+    transform: translateY(-1px);
+  }
+
+  /* Glass top nav */
+  .profile-product-shell .profile-social-nav {
+    background: linear-gradient(135deg, rgba(20,18,42,.65), rgba(14,12,30,.55));
+    border: 1px solid rgba(140,150,220,.18);
+    box-shadow:
+      0 20px 60px -28px rgba(0,0,0,.8),
+      inset 0 1px 0 rgba(255,255,255,.08);
+    backdrop-filter: blur(22px) saturate(170%);
+    -webkit-backdrop-filter: blur(22px) saturate(170%);
+  }
+  .profile-product-shell .profile-social-nav a {
+    color: rgba(220,225,255,.72);
+    transition: all .25s cubic-bezier(.4,0,.2,1);
+  }
+  .profile-product-shell .profile-social-nav a:hover {
+    background: linear-gradient(135deg, rgba(124,92,255,.35), rgba(236,74,168,.30));
+    color: #ffffff;
+    box-shadow: 0 8px 24px -8px rgba(124,92,255,.55), inset 0 1px 0 rgba(255,255,255,.18);
+    transform: translateY(-1px);
+  }
+
+  /* Override the global white card forcing for the profile shell */
+  .profile-product-shell .profile-solid-card,
+  .profile-product-shell .profile-hero-card,
+  .profile-product-shell .surface-card,
+  .profile-product-shell .surface-elevated {
+    background: linear-gradient(150deg, rgba(28,24,58,.72) 0%, rgba(16,14,38,.62) 100%) !important;
+    border: 1px solid rgba(150,160,230,.18);
+    border-radius: 1.4rem;
+    color: #e8ecff !important;
+    box-shadow:
+      0 24px 70px -30px rgba(0,0,0,.85),
+      0 2px 0 rgba(255,255,255,.04) inset,
+      0 0 0 1px rgba(124,92,255,.06) inset;
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1), box-shadow .35s;
+  }
+  .profile-product-shell .profile-solid-card:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 30px 80px -28px rgba(124,92,255,.45),
+      0 2px 0 rgba(255,255,255,.06) inset;
+  }
+
+  /* Identity card */
+  .profile-product-shell .profile-brand {
+    background: linear-gradient(90deg, #8ab8ff 0%, #c084fc 50%, #ff8fcf 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 30px rgba(192,132,252,.4);
+  }
+  .profile-product-shell .profile-photo-frame {
+    position: relative;
+    padding: .35rem;
+  }
+  .profile-product-shell .profile-photo-frame::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #38bdf8, #7c5cff, #ec4aa8, #38bdf8);
+    filter: blur(8px);
+    opacity: .55;
+    z-index: 0;
+    animation: profile-ring-spin 8s linear infinite;
+  }
+  .profile-product-shell .profile-photo-frame > * { position: relative; z-index: 1; }
+  .profile-product-shell .profile-photo-caption { color: #c9b8ff; }
+
+  .profile-product-shell .profile-identity-card h2 { color: #fff; }
+  .profile-product-shell .profile-handle { color: rgba(220,225,255,.55); }
+  .profile-product-shell .profile-quote {
+    color: rgba(220,225,255,.78);
+    border-color: rgba(124,92,255,.30);
+  }
+  .profile-product-shell .profile-status-pill,
+  .profile-product-shell .profile-online-dot-text {
+    color: #4ade80;
+  }
+  .profile-product-shell .profile-online-dot,
+  .profile-product-shell .profile-online-dot-text span {
+    background: #22ff95;
+    box-shadow: 0 0 0 4px rgba(34,255,149,.18), 0 0 16px rgba(34,255,149,.7);
+  }
+
+  .profile-product-shell .profile-level-badge {
+    background: linear-gradient(135deg, rgba(124,92,255,.30), rgba(236,74,168,.22));
+    border: 1px solid rgba(192,132,252,.30);
+    box-shadow: 0 10px 30px -12px rgba(124,92,255,.55), inset 0 1px 0 rgba(255,255,255,.10);
+  }
+  .profile-product-shell .profile-level-badge span { color: #fff; }
+  .profile-product-shell .profile-level-badge strong { color: rgba(220,225,255,.70); }
+  .profile-product-shell .profile-level-badge svg { color: #ffb8e8; fill: #ff8fcf; filter: drop-shadow(0 0 12px rgba(236,74,168,.7)); }
+
+  .profile-product-shell .profile-side-menu a {
+    color: rgba(220,225,255,.72);
+    border: 1px solid transparent;
+    transition: all .25s ease;
+  }
+  .profile-product-shell .profile-side-menu a:hover {
+    background: linear-gradient(135deg, rgba(124,92,255,.22), rgba(56,189,248,.16));
+    border-color: rgba(180,180,255,.18);
+    color: #fff;
+    box-shadow: 0 6px 20px -8px rgba(124,92,255,.45);
+    transform: translateX(2px);
+  }
+  .profile-product-shell .profile-side-menu a svg { color: #8ab8ff; }
+
+  .profile-product-shell .profile-day-status strong { color: #fff; }
+  .profile-product-shell .profile-day-status span { color: rgba(220,225,255,.62); }
+  .profile-product-shell .profile-day-status b { color: #c084fc; }
+
+  /* Hero card */
+  .profile-product-shell .profile-hero-card {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(56,30,90,.85) 0%, rgba(24,18,60,.78) 50%, rgba(60,18,80,.82) 100%) !important;
+  }
+  .profile-product-shell .profile-hero-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 80% at 80% 10%, rgba(236,74,168,.35), transparent 60%),
+      radial-gradient(50% 60% at 10% 90%, rgba(56,189,248,.25), transparent 60%);
+    pointer-events: none;
+  }
+  .profile-product-shell .profile-hero-copy h2 { color: #fff; text-shadow: 0 4px 24px rgba(124,92,255,.4); }
+  .profile-product-shell .profile-hero-handle { color: #c9b8ff; }
+  .profile-product-shell .profile-hero-bio { color: rgba(230,232,255,.82); }
+  .profile-product-shell .profile-hero-meta { color: rgba(220,225,255,.78); }
+  .profile-product-shell .profile-pixel-avatar {
+    background: linear-gradient(135deg, #7c5cff 0%, #ec4aa8 100%);
+    box-shadow: 0 20px 60px -10px rgba(124,92,255,.7), inset 0 2px 0 rgba(255,255,255,.18);
+    border-radius: 1.6rem;
+    animation: profile-breathe 4s ease-in-out infinite;
+  }
+  .profile-product-shell .profile-spark { color: rgba(255,180,230,.85); filter: drop-shadow(0 0 8px rgba(255,150,220,.6)); }
+
+  /* Stats row */
+  .profile-product-shell .profile-stats-row div {
+    background: linear-gradient(150deg, rgba(28,24,58,.72), rgba(16,14,38,.62));
+    border: 1px solid rgba(150,160,230,.18);
+    border-radius: 1.2rem;
+    padding: 1rem .8rem;
+    box-shadow: 0 16px 40px -22px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.06);
+    backdrop-filter: blur(18px) saturate(160%);
+    transition: transform .3s, box-shadow .3s;
+  }
+  .profile-product-shell .profile-stats-row div:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 24px 60px -18px rgba(124,92,255,.55), inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  .profile-product-shell .profile-stats-row svg { color: #ffd166; filter: drop-shadow(0 0 10px rgba(255,209,102,.55)); }
+  .profile-product-shell .profile-stats-row small { color: rgba(220,225,255,.55); }
+  .profile-product-shell .profile-stats-row strong { color: #fff; }
+
+  /* Level / progress bar */
+  .profile-product-shell .profile-level-card h3,
+  .profile-product-shell .profile-section-head h3,
+  .profile-product-shell .profile-about-card h3,
+  .profile-product-shell .profile-activity-card h3,
+  .profile-product-shell .profile-level-grid h4 { color: #fff; }
+  .profile-product-shell .profile-level-grid b { color: #c084fc; }
+  .profile-product-shell .profile-level-grid p { color: rgba(220,225,255,.62); }
+  .profile-product-shell .profile-section-head a,
+  .profile-product-shell .profile-section-head span { color: #8ab8ff; }
+  .profile-product-shell .profile-big-emblem {
+    background: linear-gradient(135deg, #ec4aa8 0%, #7c5cff 60%, #38bdf8 100%);
+    box-shadow:
+      inset 0 0 0 .35rem rgba(255,255,255,.18),
+      0 24px 60px -16px rgba(124,92,255,.7),
+      0 0 80px rgba(236,74,168,.35);
+    animation: profile-breathe 4.5s ease-in-out infinite;
+  }
+  .profile-product-shell .profile-big-emblem svg { filter: drop-shadow(0 4px 14px rgba(0,0,0,.4)); }
+  .profile-product-shell .profile-progress,
+  .profile-product-shell .profile-mini-progress {
+    background: rgba(15,12,35,.7);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.6), inset 0 0 0 1px rgba(150,160,230,.15);
+  }
+  .profile-product-shell .profile-progress i,
+  .profile-product-shell .profile-mini-progress i {
+    background: linear-gradient(90deg, #38bdf8, #7c5cff, #ec4aa8);
+    background-size: 200% 100%;
+    box-shadow: 0 0 16px rgba(124,92,255,.7);
+    animation: profile-shimmer 3s linear infinite;
+  }
+  .profile-product-shell .profile-soft-note,
+  .profile-product-shell .profile-scrap-box {
+    background: rgba(124,92,255,.08);
+    border: 1px solid rgba(192,132,252,.22);
+    color: rgba(230,210,255,.82);
+  }
+
+  /* Skill rows */
+  .profile-product-shell .profile-skill-row div:first-child { color: #fff; }
+  .profile-product-shell .profile-skill-row b { color: #c084fc; }
+
+  /* About */
+  .profile-product-shell .profile-about-card li {
+    color: rgba(220,225,255,.78);
+    border-bottom: 1px dashed rgba(150,160,230,.18);
+  }
+  .profile-product-shell .profile-about-card li svg { color: #8ab8ff; }
+  .profile-product-shell .profile-bio-editor span { color: rgba(220,225,255,.55); }
+  .profile-product-shell .profile-bio-editor textarea {
+    background: rgba(15,12,35,.7);
+    border: 1px solid rgba(150,160,230,.20);
+    color: #fff;
+  }
+  .profile-product-shell .profile-bio-editor textarea:focus {
+    border-color: rgba(192,132,252,.55);
+    box-shadow: 0 0 0 3px rgba(124,92,255,.25);
+  }
+
+  /* Achievements */
+  .profile-product-shell .profile-achievement {
+    background: linear-gradient(150deg, rgba(28,24,58,.65), rgba(16,14,38,.55));
+    border: 1px solid rgba(150,160,230,.16);
+    color: rgba(220,225,255,.55);
+    transition: all .3s;
+  }
+  .profile-product-shell .profile-achievement.is-awarded {
+    background: linear-gradient(150deg, rgba(124,92,255,.30), rgba(236,74,168,.22));
+    border-color: rgba(192,132,252,.45);
+    color: #fff;
+    box-shadow: 0 16px 40px -16px rgba(124,92,255,.55), inset 0 1px 0 rgba(255,255,255,.12);
+    opacity: 1;
+  }
+  .profile-product-shell .profile-achievement strong { color: #fff; }
+  .profile-product-shell .profile-achievement small { color: rgba(220,225,255,.55); }
+
+  /* Friends */
+  .profile-product-shell .profile-friend-row { color: #e8ecff; }
+  .profile-product-shell .profile-friend-row:hover {
+    background: linear-gradient(135deg, rgba(124,92,255,.18), rgba(56,189,248,.12));
+  }
+  .profile-product-shell .profile-friend-avatar {
+    background: linear-gradient(135deg, #38bdf8, #7c5cff);
+    box-shadow: 0 6px 18px -6px rgba(124,92,255,.6), 0 0 0 2px rgba(192,132,252,.25);
+  }
+  .profile-product-shell .profile-friend-row strong { color: #fff; }
+  .profile-product-shell .profile-friend-row small { color: rgba(220,225,255,.55); }
+
+  /* Motivation */
+  .profile-product-shell .profile-motivation-card { text-align: center; }
+  .profile-product-shell .profile-heart-icon {
+    color: #ff8fcf;
+    fill: #ec4aa8;
+    filter: drop-shadow(0 0 18px rgba(236,74,168,.7));
+    animation: profile-breathe 3s ease-in-out infinite;
+  }
+  .profile-product-shell .profile-motivation-card h3 {
+    background: linear-gradient(90deg, #ff8fcf, #c084fc);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .profile-product-shell .profile-motivation-card p { color: rgba(220,225,255,.72); }
+  .profile-product-shell .profile-motivation-card span { color: rgba(220,225,255,.55); }
+  .profile-product-shell .profile-secondary-button {
+    background: linear-gradient(90deg, #ec4aa8, #7c5cff);
+    box-shadow: 0 12px 30px -10px rgba(236,74,168,.6);
+  }
+  .profile-product-shell .profile-secondary-button:hover {
+    box-shadow: 0 16px 40px -8px rgba(236,74,168,.75);
+    transform: translateY(-1px);
+  }
+  .profile-product-shell .profile-wide-button {
+    background: linear-gradient(90deg, #38bdf8, #7c5cff) !important;
+    color: #fff !important;
+    box-shadow: 0 12px 30px -10px rgba(56,189,248,.55);
+    border: none !important;
+  }
+
+  /* Activity */
+  .profile-product-shell .profile-activity { border-bottom: 1px solid rgba(150,160,230,.14); }
+  .profile-product-shell .profile-activity-icon {
+    background: linear-gradient(135deg, rgba(56,189,248,.25), rgba(124,92,255,.20));
+    color: #8ab8ff;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+  }
+  .profile-product-shell .profile-activity span { color: rgba(220,225,255,.65); }
+  .profile-product-shell .profile-activity strong { color: #fff; }
+  .profile-product-shell .profile-activity small { color: rgba(220,225,255,.45); }
+}
